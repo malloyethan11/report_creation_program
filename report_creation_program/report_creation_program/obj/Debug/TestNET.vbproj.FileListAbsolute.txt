@@ -1,0 +1,11 @@
+D:\College Homework\CAPSTONE\TestNET\TestNET\bin\Debug\TestNET.exe.config
+D:\College Homework\CAPSTONE\TestNET\TestNET\bin\Debug\TestNET.exe
+D:\College Homework\CAPSTONE\TestNET\TestNET\bin\Debug\TestNET.pdb
+D:\College Homework\CAPSTONE\TestNET\TestNET\bin\Debug\TestNET.xml
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.vbprojAssemblyReference.cache
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.Resources.resources
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.vbproj.GenerateResource.cache
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.vbproj.CoreCompileInputs.cache
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.exe
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.xml
+D:\College Homework\CAPSTONE\TestNET\TestNET\obj\Debug\TestNET.pdb
