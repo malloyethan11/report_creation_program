@@ -41,8 +41,8 @@ Public Module modDatabaseUtilities
     Public m_strDatabaseConnectionStringPassword As String = "Provider=SQLOLEDB;" &
                                                       "Server=itd2.cincinnatistate.edu;" &
                                                       "Database=CPDM-GroupB;" &
-                                                      "User ID=cpdm_nhaussler;" &
-                                                      "Password=0683419;"
+                                                      "User ID=" & strConnectionUsername & ";" &
+                                                      "Password=" & strConnectionPassword & ";"
 
 
 
