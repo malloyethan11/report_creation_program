@@ -1,4 +1,4 @@
-﻿Imports Excel = Microsoft.Office.Interop.Excel
+﻿
 
 Public Class frmSalesReportInfo
     Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.Click
@@ -24,10 +24,12 @@ Public Class frmSalesReportInfo
             strTimePeriod = cboTimePeriod.SelectedItem
 
             If txtEmail.Text = "" Then
+
                 txtEmail.BackColor = Color.Yellow
                 MessageBox.Show("Please enter the email you want to send the report to.")
 
             Else
+<<<<<<< HEAD
                 strEmailToAddress = txtEmail.Text
 
                 ' create sales report
@@ -35,6 +37,11 @@ Public Class frmSalesReportInfo
 
                 ' email sales report
                 SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", strFilePath)
+=======
+
+                ' create sales report
+                CreateSalesReport(Me, strTimePeriod, False)
+>>>>>>> 838013088bad12844931e72a5a18dedb43867306
 
             End If
 
@@ -49,6 +56,7 @@ Public Class frmSalesReportInfo
 
     End Sub
 
+<<<<<<< HEAD
     Private Function CreateSalesReport(ByVal strTimePeriod As String) As String
 
         ' instantiate excel objects and declare variables
@@ -179,4 +187,6 @@ Public Class frmSalesReportInfo
 
     End Function
 
+=======
+>>>>>>> 838013088bad12844931e72a5a18dedb43867306
 End Class

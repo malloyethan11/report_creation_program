@@ -19,11 +19,16 @@ Partial Class frmMain
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnConfigureReports As Button
+
+
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.btnCreditDepositReport = New System.Windows.Forms.Button()
         Me.btnCashDepositReport = New System.Windows.Forms.Button()
         Me.btnInventoryReport = New System.Windows.Forms.Button()
@@ -31,11 +36,14 @@ Partial Class frmMain
         Me.btnSalesReport = New System.Windows.Forms.Button()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.btnConfigureReports = New System.Windows.Forms.Button()
+        Me.tmrUpdateLocalConfig = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrCheckIfReportRun = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'btnCreditDepositReport
         '
-        Me.btnCreditDepositReport.Location = New System.Drawing.Point(54, 290)
+        Me.btnCreditDepositReport.Location = New System.Drawing.Point(12, 290)
         Me.btnCreditDepositReport.Name = "btnCreditDepositReport"
         Me.btnCreditDepositReport.Size = New System.Drawing.Size(135, 46)
         Me.btnCreditDepositReport.TabIndex = 0
@@ -44,7 +52,7 @@ Partial Class frmMain
         '
         'btnCashDepositReport
         '
-        Me.btnCashDepositReport.Location = New System.Drawing.Point(54, 225)
+        Me.btnCashDepositReport.Location = New System.Drawing.Point(12, 225)
         Me.btnCashDepositReport.Name = "btnCashDepositReport"
         Me.btnCashDepositReport.Size = New System.Drawing.Size(135, 46)
         Me.btnCashDepositReport.TabIndex = 1
@@ -53,7 +61,7 @@ Partial Class frmMain
         '
         'btnInventoryReport
         '
-        Me.btnInventoryReport.Location = New System.Drawing.Point(54, 157)
+        Me.btnInventoryReport.Location = New System.Drawing.Point(12, 157)
         Me.btnInventoryReport.Name = "btnInventoryReport"
         Me.btnInventoryReport.Size = New System.Drawing.Size(135, 46)
         Me.btnInventoryReport.TabIndex = 2
@@ -62,7 +70,7 @@ Partial Class frmMain
         '
         'btnTaxReport
         '
-        Me.btnTaxReport.Location = New System.Drawing.Point(54, 93)
+        Me.btnTaxReport.Location = New System.Drawing.Point(12, 93)
         Me.btnTaxReport.Name = "btnTaxReport"
         Me.btnTaxReport.Size = New System.Drawing.Size(135, 46)
         Me.btnTaxReport.TabIndex = 3
@@ -71,7 +79,7 @@ Partial Class frmMain
         '
         'btnSalesReport
         '
-        Me.btnSalesReport.Location = New System.Drawing.Point(54, 29)
+        Me.btnSalesReport.Location = New System.Drawing.Point(12, 29)
         Me.btnSalesReport.Name = "btnSalesReport"
         Me.btnSalesReport.Size = New System.Drawing.Size(135, 46)
         Me.btnSalesReport.TabIndex = 4
@@ -80,7 +88,7 @@ Partial Class frmMain
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(54, 376)
+        Me.btnExit.Location = New System.Drawing.Point(12, 376)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(135, 46)
         Me.btnExit.TabIndex = 5
@@ -90,17 +98,37 @@ Partial Class frmMain
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(51, 345)
+        Me.Label1.Location = New System.Drawing.Point(9, 345)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(139, 13)
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "______________________"
         '
+        'btnConfigureReports
+        '
+        Me.btnConfigureReports.Location = New System.Drawing.Point(194, 157)
+        Me.btnConfigureReports.Name = "btnConfigureReports"
+        Me.btnConfigureReports.Size = New System.Drawing.Size(135, 46)
+        Me.btnConfigureReports.TabIndex = 7
+        Me.btnConfigureReports.Text = "Configure Reports"
+        Me.btnConfigureReports.UseVisualStyleBackColor = True
+        '
+        'tmrUpdateLocalConfig
+        '
+        Me.tmrUpdateLocalConfig.Enabled = True
+        Me.tmrUpdateLocalConfig.Interval = 500
+        '
+        'tmrCheckIfReportRun
+        '
+        Me.tmrCheckIfReportRun.Enabled = True
+        Me.tmrCheckIfReportRun.Interval = 1000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(242, 434)
+        Me.ClientSize = New System.Drawing.Size(395, 434)
+        Me.Controls.Add(Me.btnConfigureReports)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnSalesReport)
@@ -121,6 +149,7 @@ Partial Class frmMain
     Friend WithEvents btnTaxReport As Button
     Friend WithEvents btnSalesReport As Button
 
+<<<<<<< HEAD:report_creation_program/report_creation_program/Form1.Designer.vb
     Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
 
         ' declare variables
@@ -315,4 +344,8 @@ Err_Handler:
     End Sub
 
     Friend WithEvents Label1 As Label
+=======
+    Friend WithEvents tmrUpdateLocalConfig As Timer
+    Friend WithEvents tmrCheckIfReportRun As Timer
+>>>>>>> 838013088bad12844931e72a5a18dedb43867306:report_creation_program/report_creation_program/frmMain.Designer.vb
 End Class

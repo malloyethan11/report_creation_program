@@ -73,9 +73,23 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.vb" />
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="clsEncryption.vb" />
+    <Compile Include="frmConfigureReports.Designer.vb">
+      <DependentUpon>frmConfigureReports.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmConfigureReports.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGetDatabaseCredentials.Designer.vb">
+      <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmGetDatabaseCredentials.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.vb">
+      <DependentUpon>frmMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSalesReportInfo.Designer.vb">
@@ -84,12 +98,24 @@
     <Compile Include="frmSalesReportInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmViewConfig.Designer.vb">
+      <DependentUpon>frmViewConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="modCommonUtilities.vb" />
     <Compile Include="modDatabaseUtilities.vb" />
+<<<<<<< HEAD
     <Compile Include="modEmail.vb" />
+=======
+    <Compile Include="modGlobalConstantsAndVariables.vb" />
+>>>>>>> 838013088bad12844931e72a5a18dedb43867306
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -103,11 +129,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="frmConfigureReports.resx">
+      <DependentUpon>frmConfigureReports.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGetDatabaseCredentials.resx">
+      <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSalesReportInfo.resx">
       <DependentUpon>frmSalesReportInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewConfig.resx">
+      <DependentUpon>frmViewConfig.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -156,6 +191,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ButtonShort.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

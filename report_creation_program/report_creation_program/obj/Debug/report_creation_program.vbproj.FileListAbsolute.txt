@@ -4,7 +4,6 @@ C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyeth
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.xml
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbprojAssemblyReference.cache
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.ResolveComReference.cache
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.Form1.resources
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.Resources.resources
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.GenerateResource.cache
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.CoreCompileInputs.cache
@@ -12,3 +11,23 @@ C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyeth
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.xml
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.pdb
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmSalesReportInfo.resources
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmMain.resources
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmConfigureReports.resources
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmViewConfig.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.exe.config
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.exe
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.pdb
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.xml
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbprojAssemblyReference.cache
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.ResolveComReference.cache
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmConfigureReports.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmSalesReportInfo.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmViewConfig.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.Resources.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.GenerateResource.cache
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbproj.CoreCompileInputs.cache
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.exe
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.xml
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.pdb
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmMain.resources
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmGetDatabaseCredentials.resources
