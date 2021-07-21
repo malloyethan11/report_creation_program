@@ -19,11 +19,16 @@ Partial Class frmMain
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnConfigureReports As Button
+
+
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.btnCreditDepositReport = New System.Windows.Forms.Button()
         Me.btnCashDepositReport = New System.Windows.Forms.Button()
         Me.btnInventoryReport = New System.Windows.Forms.Button()
@@ -32,6 +37,8 @@ Partial Class frmMain
         Me.btnExit = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnConfigureReports = New System.Windows.Forms.Button()
+        Me.tmrUpdateLocalConfig = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrCheckIfReportRun = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'btnCreditDepositReport
@@ -106,6 +113,16 @@ Partial Class frmMain
         Me.btnConfigureReports.Text = "Configure Reports"
         Me.btnConfigureReports.UseVisualStyleBackColor = True
         '
+        'tmrUpdateLocalConfig
+        '
+        Me.tmrUpdateLocalConfig.Enabled = True
+        Me.tmrUpdateLocalConfig.Interval = 500
+        '
+        'tmrCheckIfReportRun
+        '
+        Me.tmrCheckIfReportRun.Enabled = True
+        Me.tmrCheckIfReportRun.Interval = 1000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -132,69 +149,6 @@ Partial Class frmMain
     Friend WithEvents btnTaxReport As Button
     Friend WithEvents btnSalesReport As Button
 
-    Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
-
-        ' Opens form to get user input and run sales report
-        frmSalesReportInfo.ShowDialog()
-
-    End Sub
-
-    Private Sub btnTaxReport_Click(sender As Object, e As EventArgs) Handles btnTaxReport.Click
-
-        ' declare variables
-        Dim strUserInput As String
-
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-    End Sub
-
-    Private Sub btnInventoryReport_Click(sender As Object, e As EventArgs) Handles btnInventoryReport.Click
-
-        ' declare variables
-        Dim strUserInput As String
-
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-    End Sub
-
-    Private Sub btnCashDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashDepositReport.Click
-
-        ' declare variables
-        Dim strUserInput As String
-
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-    End Sub
-
-    Private Sub btnCreditDepositReport_Click(sender As Object, e As EventArgs) Handles btnCreditDepositReport.Click
-
-        ' declare variables
-        Dim strUserInput As String
-
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-    End Sub
-
-    Friend WithEvents btnExit As Button
-
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-
-        ' close the form
-        Me.Close()
-
-    End Sub
-
-    Friend WithEvents Label1 As Label
-    Friend WithEvents btnConfigureReports As Button
-
-    Private Sub btnConfigureReports_Click(sender As Object, e As EventArgs) Handles btnConfigureReports.Click
-
-        ' show frmConfigureReports
-        frmConfigureReports.ShowDialog()
-
-    End Sub
+    Friend WithEvents tmrUpdateLocalConfig As Timer
+    Friend WithEvents tmrCheckIfReportRun As Timer
 End Class
