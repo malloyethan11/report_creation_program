@@ -3,6 +3,10 @@
 Public Class frmSalesReportInfo
     Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.Click
 
+        ' declare variables
+        Dim strEmailToAddress As String
+        Dim strFilePath As String
+
         ' reset control colors
         cboTimePeriod.BackColor = Color.White
         txtEmail.BackColor = Color.White
@@ -24,8 +28,13 @@ Public Class frmSalesReportInfo
                 MessageBox.Show("Please enter the email you want to send the report to.")
 
             Else
+                strEmailToAddress = txtEmail.Text
+
                 ' create sales report
-                CreateSalesReport(strTimePeriod)
+                strFilePath = CreateSalesReport(strTimePeriod)
+
+                ' email sales report
+                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", strFilePath)
 
             End If
 
@@ -40,7 +49,7 @@ Public Class frmSalesReportInfo
 
     End Sub
 
-    Private Sub CreateSalesReport(ByVal strTimePeriod As String)
+    Private Function CreateSalesReport(ByVal strTimePeriod As String) As String
 
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
@@ -48,6 +57,7 @@ Public Class frmSalesReportInfo
         Dim ExcelWkBk As Excel.Workbook
         Dim ExcelWkSht As Excel.Worksheet
         Dim ExcelRange As Excel.Range
+        Dim strFilePath As String
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
@@ -90,17 +100,20 @@ Public Class frmSalesReportInfo
         ExcelWkSht.Cells(3, 13) = GetSales(13, strTimePeriod)
         ExcelWkSht.Cells(3, 14) = GetSales(14, strTimePeriod)
 
+        ExcelWkBk.SaveAs("SalesReport", "xls")
+
         ' Release object references.
         ExcelRange = Nothing
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
         ExcelApp.Quit()
         ExcelApp = Nothing
-        Exit Sub
-Err_Handler:
-        MsgBox(Err.Description, vbCritical, "Error: " & Err.Number)
 
-    End Sub
+        strFilePath = "C:\Users\mallo\OneDrive\documents\SalesReport.xls"
+
+        Return strFilePath
+
+    End Function
 
     Private Function GetSales(ByVal intCategory As Integer, ByVal strTimePeriod As String)
 

@@ -1,4 +1,4 @@
-﻿
+﻿Imports Excel = Microsoft.Office.Interop.Excel
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmMain
@@ -121,9 +121,6 @@ Partial Class frmMain
     Friend WithEvents btnTaxReport As Button
     Friend WithEvents btnSalesReport As Button
 
-
-
-
     Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
 
         ' declare variables
@@ -142,6 +139,14 @@ Partial Class frmMain
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
 
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
+
+        ' get tax report
+        RunTaxReport()
+
     End Sub
 
     Private Sub btnInventoryReport_Click(sender As Object, e As EventArgs) Handles btnInventoryReport.Click
@@ -152,6 +157,14 @@ Partial Class frmMain
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
 
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
+
+        ' run inventory report
+        RunInventoryReport()
+
     End Sub
 
     Private Sub btnCashDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashDepositReport.Click
@@ -161,6 +174,11 @@ Partial Class frmMain
 
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
+
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
 
     End Sub
 
@@ -180,6 +198,119 @@ Partial Class frmMain
 
         ' close the form
         Me.Close()
+
+    End Sub
+
+    Private Sub RunTaxReport()
+
+
+
+    End Sub
+
+    Private Sub RunInventoryReport()
+
+        ' instantiate excel objects and declare variables
+        ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim intNumRecords As Integer
+        Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
+        Dim intRecordIndex As Integer = 0
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = True ' for testing only, set to false when go to prod
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
+
+        ' add table headers
+        ExcelWkSht.Cells(1, 1) = "SKU"
+        ExcelWkSht.Cells(1, 2) = "Item Name"
+        ExcelWkSht.Cells(1, 3) = "Item Description"
+        ExcelWkSht.Cells(1, 4) = "Vendor Name"
+        ExcelWkSht.Cells(1, 5) = "Retail Price"
+        ExcelWkSht.Cells(1, 6) = "Current Inventory"
+        ExcelWkSht.Cells(1, 7) = "Safety Stock"
+        ExcelWkSht.Cells(1, 8) = "UPC"
+
+
+        ' add table data
+        Try
+
+            ' Init select statement string
+            Dim strSelect As String = ""
+            ' Init select statement Db command
+            Dim cmdSelect As OleDb.OleDbCommand
+            ' Init data reader
+            Dim drSourceTable As OleDb.OleDbDataReader
+            ' Init data table
+            Dim dt As DataTable = New DataTable
+
+            ' Open the DB
+            If OpenDatabaseConnectionSQLServer() = False Then
+
+                ' The database is not open
+                MessageBox.Show(Me, "Database connection error." & vbNewLine &
+                                "The form will now close.",
+                                Me.Text + " Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                ' Close the form/application
+                Me.Close()
+
+            End If
+
+            ' Build the select statement based on user-selected time period
+            strSelect = "SELECT strSKU, strItemName, strItemDesc, strVendorName, decItemPrice, intInventoryAmt, intSafetyStockAmt, strUPC FROM TItems, TVendors WHERE intInventoryAmt <= intSafetyStockAmt and TItems.intVendorID = TVendors.intVendorID"
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+
+            ' load table from data reader
+            dt.Load(drSourceTable)
+
+            ' add data to excel spreadsheet
+            intNumRecords = dt.Rows.Count
+
+            While intIndex <= (intNumRecords + 1)
+
+                ExcelWkSht.Cells(intIndex, 1).Value = dt.Rows.Item(intRecordIndex).ItemArray(0)
+                ExcelWkSht.Cells(intIndex, 2).Value = dt.Rows.Item(intRecordIndex).ItemArray(1)
+                ExcelWkSht.Cells(intIndex, 3).Value = dt.Rows.Item(intRecordIndex).ItemArray(2)
+                ExcelWkSht.Cells(intIndex, 4).Value = dt.Rows.Item(intRecordIndex).ItemArray(3)
+                ExcelWkSht.Cells(intIndex, 5).Value = dt.Rows.Item(intRecordIndex).ItemArray(4)
+                ExcelWkSht.Cells(intIndex, 6).Value = dt.Rows.Item(intRecordIndex).ItemArray(5)
+                ExcelWkSht.Cells(intIndex, 7).Value = dt.Rows.Item(intRecordIndex).ItemArray(6)
+                ExcelWkSht.Cells(intIndex, 8).Value = dt.Rows.Item(intRecordIndex).ItemArray(7)
+                intIndex += 1
+                intRecordIndex += 1
+
+            End While
+
+            ' close the database connection
+            CloseDatabaseConnection()
+
+        Catch excError As Exception
+
+            ' Log and display error message
+            MessageBox.Show(excError.Message)
+
+        End Try
+
+        ' Release object references.
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+        Exit Sub
+Err_Handler:
+        MsgBox(Err.Description, vbCritical, "Error: " & Err.Number)
 
     End Sub
 
