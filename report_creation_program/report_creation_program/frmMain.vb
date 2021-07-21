@@ -320,7 +320,15 @@ Public Class frmMain
 
             ' Time period
             Dim strNow As String = DateTime.Now.ToString("MM/dd HH:mm")
-            Dim strTarget As String = dtmYearlySalesReport.ToString("MM/dd HH:mm")
+            Dim strTarget As String
+            Dim intDaysInMonth As Integer = DateTime.DaysInMonth(DateTime.Now.Year, dtmYearlySalesReport.Month)
+
+            ' Clamp the days within this month
+            If intDaysInMonth < dtmYearlySalesReport.Day Then
+                strTarget = dtmYearlySalesReport.ToString("MM/" & intDaysInMonth & " HH:mm")
+            Else
+                strTarget = dtmYearlySalesReport.ToString("MM/dd HH:mm")
+            End If
 
             ' Is the flag false?
             If (aastrCSVFile(3, 1) = "false") Then
