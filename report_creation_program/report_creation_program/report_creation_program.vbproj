@@ -74,12 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEncryption.vb" />
-    <Compile Include="frmConfigureReports.Designer.vb">
-      <DependentUpon>frmConfigureReports.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmConfigureReports.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmGetDatabaseCredentials.Designer.vb">
       <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
     </Compile>
@@ -98,19 +92,9 @@
     <Compile Include="frmSalesReportInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmViewConfig.Designer.vb">
-      <DependentUpon>frmViewConfig.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmViewConfig.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="modCommonUtilities.vb" />
     <Compile Include="modDatabaseUtilities.vb" />
-<<<<<<< HEAD
-    <Compile Include="modEmail.vb" />
-=======
     <Compile Include="modGlobalConstantsAndVariables.vb" />
->>>>>>> 838013088bad12844931e72a5a18dedb43867306
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -129,9 +113,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmConfigureReports.resx">
-      <DependentUpon>frmConfigureReports.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmGetDatabaseCredentials.resx">
       <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
     </EmbeddedResource>
@@ -140,9 +121,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSalesReportInfo.resx">
       <DependentUpon>frmSalesReportInfo.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmViewConfig.resx">
-      <DependentUpon>frmViewConfig.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

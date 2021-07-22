@@ -6,6 +6,9 @@ Public Class frmMain
 
     Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
 
+        ' declare variables
+        Dim frmSalesReportInfo = New frmSalesReportInfo()
+
         ' Opens form to get user input and run sales report
         frmSalesReportInfo.ShowDialog()
 
@@ -19,6 +22,14 @@ Public Class frmMain
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
 
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
+
+        ' get tax report
+        RunTaxReport()
+
     End Sub
 
     Private Sub btnInventoryReport_Click(sender As Object, e As EventArgs) Handles btnInventoryReport.Click
@@ -29,6 +40,14 @@ Public Class frmMain
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
 
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
+
+        ' run inventory report
+        RunInventoryReport(Me, False)
+
     End Sub
 
     Private Sub btnCashDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashDepositReport.Click
@@ -38,6 +57,11 @@ Public Class frmMain
 
         ' show messagebox asking user where they want to send the report
         strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
+
+        ' don't progress if user enters blank input/presses cancel
+        If strUserInput = "" Then
+            Exit Sub
+        End If
 
     End Sub
 
@@ -59,16 +83,6 @@ Public Class frmMain
         Me.Close()
 
     End Sub
-
-    Private Sub btnConfigureReports_Click(sender As Object, e As EventArgs) Handles btnConfigureReports.Click
-
-        ' show frmConfigureReports
-        frmConfigureReports.ShowDialog()
-
-        tmrUpdateLocalConfig.Start()
-
-    End Sub
-
 
     ' ┍━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┑
     ' │ From here down is the functionality to automate the reports │
@@ -188,6 +202,7 @@ Public Class frmMain
         SalesDaily()
         SalesWeekly()
         SalesMonthly()
+        SalesYearly()
 
     End Sub
 
