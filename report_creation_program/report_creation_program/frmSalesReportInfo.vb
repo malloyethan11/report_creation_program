@@ -35,7 +35,7 @@ Public Class frmSalesReportInfo
                 CreateSalesReport(Me, strTimePeriod, False)
 
                 ' email sales report
-                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
+                SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
 
             End If
 
