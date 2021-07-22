@@ -28,9 +28,9 @@
 
 
     Public strEmailSalesReport As String
-    Public strEmailSalesTax As String
-    Public strEmailInventory As String
-    Public strEmailDesposit As String
+    Public strEmailSalesTaxReport As String
+    Public strEmailInventoryReport As String
+    Public strEmailDespositReport As String
 
     Public blnSalesReportDaily As Boolean
     Public blnSalesReportMonthly As Boolean
@@ -54,22 +54,22 @@
 
     Public dtmDailySalesReport As DateTime
     Public dtmDailySalesTaxReport As DateTime
-    Public dtmDailyInventory As DateTime
-    Public dtmDailyDeposit As DateTime
+    Public dtmDailyInventoryReport As DateTime
+    Public dtmDailyDepositReport As DateTime
 
     Public dtmWeeklySalesReport As DateTime
     Public dtmWeeklySalesTaxReport As DateTime
-    Public dtmWeeklyInventory As DateTime
-    Public dtmWeeklyDeposit As DateTime
+    Public dtmWeeklyInventoryReport As DateTime
+    Public dtmWeeklyDepositReport As DateTime
 
     Public dtmMonthlySalesReport As DateTime
     Public dtmMonthlySalesTaxReport As DateTime
-    Public dtmMonthlyInventory As DateTime
-    Public dtmMonthlyDeposit As DateTime
+    Public dtmMonthlyInventoryReport As DateTime
+    Public dtmMonthlyDepositReport As DateTime
 
     Public dtmYearlySalesReport As DateTime
     Public dtmYearlySalesTaxReport As DateTime
-    Public dtmYearlyInventory As DateTime
-    Public dtmYearlyDeposit As DateTime
+    Public dtmYearlyInventoryReport As DateTime
+    Public dtmYearlyDepositReport As DateTime
 
 End Module
