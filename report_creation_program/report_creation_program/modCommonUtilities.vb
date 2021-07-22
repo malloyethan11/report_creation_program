@@ -1,4 +1,6 @@
 ﻿Imports Excel = Microsoft.Office.Interop.Excel
+Imports System.Net.Mail
+
 
 Module modCommonUtilities
 
@@ -81,73 +83,76 @@ Module modCommonUtilities
 
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-        Dim ExcelApp As Excel.Application
-        Dim ExcelWkBk As Excel.Workbook
-        Dim ExcelWkSht As Excel.Worksheet
-        Dim ExcelRange As Excel.Range
 
-        ' start excel and get application object
-        ExcelApp = CreateObject("Excel.Application")
-        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+        Try
 
-        ' Add a new workbook
-        ExcelWkBk = ExcelApp.Workbooks.Add
-        ExcelWkSht = ExcelWkBk.ActiveSheet
+            Dim ExcelApp As Excel.Application
+            Dim ExcelWkBk As Excel.Workbook
+            Dim ExcelWkSht As Excel.Worksheet
+            Dim ExcelRange As Excel.Range
 
-        ' add table headers going cell by cell
-        ExcelWkSht.Cells(1, 1) = "Sales for the " & strTimePeriod
-        ExcelWkSht.Cells(2, 1) = "Medals"
-        ExcelWkSht.Cells(2, 2) = "Statues"
-        ExcelWkSht.Cells(2, 3) = "Books"
-        ExcelWkSht.Cells(2, 4) = "Church Goods"
-        ExcelWkSht.Cells(2, 5) = "Tokens"
-        ExcelWkSht.Cells(2, 6) = "Baptism"
-        ExcelWkSht.Cells(2, 7) = "Rosary"
-        ExcelWkSht.Cells(2, 8) = "Wedding"
-        ExcelWkSht.Cells(2, 9) = "Anniversary"
-        ExcelWkSht.Cells(2, 10) = "Cards"
-        ExcelWkSht.Cells(2, 11) = "Holy Cards"
-        ExcelWkSht.Cells(2, 12) = "Pictures/Artwork"
-        ExcelWkSht.Cells(2, 13) = "Confirmation"
-        ExcelWkSht.Cells(2, 14) = "First Communion"
+            ' start excel and get application object
+            ExcelApp = CreateObject("Excel.Application")
+            ExcelApp.Visible = False ' for testing only, set to false when go to prod
 
-        ' add table data
-        ExcelWkSht.Cells(3, 1) = GetSales(frmMe, 1, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 2) = GetSales(frmMe, 2, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 3) = GetSales(frmMe, 3, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 4) = GetSales(frmMe, 4, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 5) = GetSales(frmMe, 5, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 6) = GetSales(frmMe, 6, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 7) = GetSales(frmMe, 7, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 8) = GetSales(frmMe, 8, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 9) = GetSales(frmMe, 9, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 10) = GetSales(frmMe, 10, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 11) = GetSales(frmMe, 11, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 12) = GetSales(frmMe, 12, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 13) = GetSales(frmMe, 13, strTimePeriod, blnQuiet)
-        ExcelWkSht.Cells(3, 14) = GetSales(frmMe, 14, strTimePeriod, blnQuiet)
+            ' Add a new workbook
+            ExcelWkBk = ExcelApp.Workbooks.Add
+            ExcelWkSht = ExcelWkBk.ActiveSheet
 
-        Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
+            ' add table headers going cell by cell
+            ExcelWkSht.Cells(1, 1) = "Sales for the " & strTimePeriod
+            ExcelWkSht.Cells(2, 1) = "Medals"
+            ExcelWkSht.Cells(2, 2) = "Statues"
+            ExcelWkSht.Cells(2, 3) = "Books"
+            ExcelWkSht.Cells(2, 4) = "Church Goods"
+            ExcelWkSht.Cells(2, 5) = "Tokens"
+            ExcelWkSht.Cells(2, 6) = "Baptism"
+            ExcelWkSht.Cells(2, 7) = "Rosary"
+            ExcelWkSht.Cells(2, 8) = "Wedding"
+            ExcelWkSht.Cells(2, 9) = "Anniversary"
+            ExcelWkSht.Cells(2, 10) = "Cards"
+            ExcelWkSht.Cells(2, 11) = "Holy Cards"
+            ExcelWkSht.Cells(2, 12) = "Pictures/Artwork"
+            ExcelWkSht.Cells(2, 13) = "Confirmation"
+            ExcelWkSht.Cells(2, 14) = "First Communion"
 
-        ' Save
-        If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-            My.Computer.FileSystem.DeleteFile(strFile)
-        End If
-        ExcelWkSht.SaveAs(strFile)
+            ' add table data
+            ExcelWkSht.Cells(3, 1) = GetSales(frmMe, 1, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 2) = GetSales(frmMe, 2, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 3) = GetSales(frmMe, 3, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 4) = GetSales(frmMe, 4, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 5) = GetSales(frmMe, 5, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 6) = GetSales(frmMe, 6, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 7) = GetSales(frmMe, 7, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 8) = GetSales(frmMe, 8, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 9) = GetSales(frmMe, 9, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 10) = GetSales(frmMe, 10, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 11) = GetSales(frmMe, 11, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 12) = GetSales(frmMe, 12, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 13) = GetSales(frmMe, 13, strTimePeriod, blnQuiet)
+            ExcelWkSht.Cells(3, 14) = GetSales(frmMe, 14, strTimePeriod, blnQuiet)
 
-        ' Release object references.
-        ExcelRange = Nothing
-        ExcelWkSht = Nothing
-        ExcelWkBk = Nothing
-        ExcelApp.Quit()
-        ExcelApp = Nothing
-        Exit Sub
-Err_Handler:
-        If (blnQuiet = False) Then
-            MsgBox(Err.Description, vbCritical, "Error: " & Err.Number)
-        Else
-            Console.WriteLine(Err.Description)
-        End If
+            Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
+
+            ' Save
+            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
+                My.Computer.FileSystem.DeleteFile(strFile)
+            End If
+            ExcelWkSht.SaveAs(strFile)
+
+            ' Release object references.
+            ExcelRange = Nothing
+            ExcelWkSht = Nothing
+            ExcelWkBk = Nothing
+            ExcelApp.Quit()
+            ExcelApp = Nothing
+
+        Catch excError As Exception
+
+            ' Log and display error message
+            MessageBox.Show(excError.Message)
+
+        End Try
 
     End Sub
 
@@ -178,8 +183,8 @@ Err_Handler:
 
             End If
 
-                ' Build the select statement based on user-selected time period
-                If strTimePeriod = "last day" Then
+            ' Build the select statement based on user-selected time period
+            If strTimePeriod = "last day" Then
                 strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " AND strPurchaseDate > (DATEADD(DAY, -1, GETDATE()))"
 
             ElseIf strTimePeriod = "last week" Then
@@ -222,6 +227,130 @@ Err_Handler:
         Return dblTotalSales
 
     End Function
+
+    Public Sub RunTaxReport()
+
+
+
+    End Sub
+
+    Public Sub RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean)
+
+        ' add table data
+        Try
+
+            ' instantiate excel objects and declare variables
+            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+            Dim ExcelApp As Excel.Application
+            Dim ExcelWkBk As Excel.Workbook
+            Dim ExcelWkSht As Excel.Worksheet
+            Dim ExcelRange As Excel.Range
+            Dim intNumRecords As Integer
+            Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
+            Dim intRecordIndex As Integer = 0
+
+            ' start excel and get application object
+            ExcelApp = CreateObject("Excel.Application")
+            ExcelApp.Visible = True ' for testing only, set to false when go to prod
+
+            ' Add a new workbook
+            ExcelWkBk = ExcelApp.Workbooks.Add
+            ExcelWkSht = ExcelWkBk.ActiveSheet
+
+            ' add table headers
+            ExcelWkSht.Cells(1, 1) = "SKU"
+            ExcelWkSht.Cells(1, 2) = "Item Name"
+            ExcelWkSht.Cells(1, 3) = "Item Description"
+            ExcelWkSht.Cells(1, 4) = "Vendor Name"
+            ExcelWkSht.Cells(1, 5) = "Retail Price"
+            ExcelWkSht.Cells(1, 6) = "Current Inventory"
+            ExcelWkSht.Cells(1, 7) = "Safety Stock"
+            ExcelWkSht.Cells(1, 8) = "UPC"
+
+            ' Init select statement string
+            Dim strSelect As String = ""
+            ' Init select statement Db command
+            Dim cmdSelect As OleDb.OleDbCommand
+            ' Init data reader
+            Dim drSourceTable As OleDb.OleDbDataReader
+            ' Init data table
+            Dim dt As DataTable = New DataTable
+
+            ' Open the DB
+            If OpenDatabaseConnectionSQLServer() = False Then
+
+                If (blnQuiet = False) Then
+                    ' The database is not open
+                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                                "The form will now close.",
+                                frmMe.Text + " Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    ' Close the form/application
+                    frmMe.Close()
+                Else
+                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                End If
+
+            End If
+
+            ' Build the select statement based on user-selected time period
+            strSelect = "SELECT strSKU, strItemName, strItemDesc, strVendorName, decItemPrice, intInventoryAmt, intSafetyStockAmt, strUPC FROM TItems, TVendors WHERE intInventoryAmt <= intSafetyStockAmt and TItems.intVendorID = TVendors.intVendorID"
+
+            ' Retrieve all the records 
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            drSourceTable = cmdSelect.ExecuteReader
+
+            ' load table from data reader
+            dt.Load(drSourceTable)
+
+            ' add data to excel spreadsheet
+            intNumRecords = dt.Rows.Count
+
+            While intIndex <= (intNumRecords + 1)
+
+                ExcelWkSht.Cells(intIndex, 1).Value = dt.Rows.Item(intRecordIndex).ItemArray(0)
+                ExcelWkSht.Cells(intIndex, 2).Value = dt.Rows.Item(intRecordIndex).ItemArray(1)
+                ExcelWkSht.Cells(intIndex, 3).Value = dt.Rows.Item(intRecordIndex).ItemArray(2)
+                ExcelWkSht.Cells(intIndex, 4).Value = dt.Rows.Item(intRecordIndex).ItemArray(3)
+                ExcelWkSht.Cells(intIndex, 5).Value = dt.Rows.Item(intRecordIndex).ItemArray(4)
+                ExcelWkSht.Cells(intIndex, 6).Value = dt.Rows.Item(intRecordIndex).ItemArray(5)
+                ExcelWkSht.Cells(intIndex, 7).Value = dt.Rows.Item(intRecordIndex).ItemArray(6)
+                ExcelWkSht.Cells(intIndex, 8).Value = dt.Rows.Item(intRecordIndex).ItemArray(7).ToString() & "​" ' <- Whitespace character to trick excel formatting. DO NOT DELETE THIS
+                intIndex += 1
+                intRecordIndex += 1
+
+            End While
+
+            ' close the database connection
+            CloseDatabaseConnection()
+
+            Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
+
+            ' Save
+            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
+                My.Computer.FileSystem.DeleteFile(strFile)
+            End If
+            ExcelWkSht.SaveAs(strFile)
+
+            ' Release object references.
+            ExcelRange = Nothing
+            ExcelWkSht = Nothing
+            ExcelWkBk = Nothing
+            ExcelApp.Quit()
+            ExcelApp = Nothing
+
+        Catch excError As Exception
+            If (blnQuiet = False) Then
+                ' Log and display error message
+                MessageBox.Show(excError.Message)
+            Else
+                Console.WriteLine(excError.Message)
+            End If
+
+        End Try
+
+    End Sub
 
     Public Sub ReadCSVFile()
 
@@ -353,5 +482,45 @@ Err_Handler:
 
 
     End Sub
+
+    ' Send Mail Function copied from: http://vb.net-informations.com/communications/vb.net_smtp_mail.htm
+    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String)
+        Try
+            Dim SmtpServer As New SmtpClient()
+            Dim mail As New MailMessage()
+
+            ' Add Email ID and Password of gmail account.
+            ' This will be used to send the email from
+            ' In this GMail account one need to  turn on from setting -> Allow less Secure App
+
+            SmtpServer.Port = 587
+            SmtpServer.Host = "smtp.gmail.com"
+            ' Citation start: https://stackoverflow.com/questions/13424096/contact-form-is-not-sending-email-to-my-gmail-acount
+            SmtpServer.EnableSsl = True
+            SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network
+            SmtpServer.UseDefaultCredentials = False
+            SmtpServer.Credentials = New Net.NetworkCredential(strUsername, strPassword)
+            ' Citation end.
+            mail = New MailMessage()
+            mail.From = New MailAddress(strFrom)
+            mail.To.Add(strTO)
+            mail.Subject = strSubject
+            mail.Body = strBody
+            ' Add Attachment
+            ' Code from: http://vb.net-informations.com/communications/vb-email-attachment.htm
+            ' Reference for excel: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+            ' Reference for PDF And Easy Report RDLC: https://www.youtube.com/watch?v=HX8hG29s3r8
+            Dim attachment As System.Net.Mail.Attachment
+            attachment = New System.Net.Mail.Attachment(strAttachmentPath)
+            mail.Attachments.Add(attachment)
+
+            SmtpServer.Send(mail)
+            MsgBox("mail send")
+            Return 0
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            Return ex.Message.Length
+        End Try
+    End Function
 
 End Module
