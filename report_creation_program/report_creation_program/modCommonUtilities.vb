@@ -84,7 +84,6 @@ Module modCommonUtilities
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
 
-
         Dim ExcelApp As Excel.Application
         Dim ExcelWkBk As Excel.Workbook
         Dim ExcelWkSht As Excel.Worksheet
@@ -94,11 +93,11 @@ Module modCommonUtilities
         ExcelApp = CreateObject("Excel.Application")
         ExcelApp.Visible = False ' for testing only, set to false when go to prod
 
-        Try
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
 
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
+        Try
 
             ' add table headers going cell by cell
             ExcelWkSht.Cells(1, 1) = "Sales for the " & strTimePeriod
@@ -147,12 +146,15 @@ Module modCommonUtilities
             MessageBox.Show(excError.Message)
 
         End Try
+
         ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
         ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
 
     End Sub
 
@@ -237,7 +239,11 @@ Module modCommonUtilities
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
-        ExcelApp.Visible = True ' for testing only, set to false when go to prod
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
 
         Try
 
@@ -273,10 +279,6 @@ Module modCommonUtilities
             Dim dblPayoutAmount As Double
             Dim dblTaxableSubtotal As Double
 
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
-
             ' Open the DB
             If OpenDatabaseConnectionSQLServer() = False Then
 
@@ -293,8 +295,6 @@ Module modCommonUtilities
                 End If
 
             End If
-
-
 
             ' BUILD THE SELECT STATEMENTS
 
@@ -607,11 +607,13 @@ Module modCommonUtilities
         End Try
 
         ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
         ExcelRange = Nothing
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
-        ExcelApp.Quit()
-        ExcelApp = Nothing
 
     End Sub
 
@@ -633,11 +635,11 @@ Module modCommonUtilities
         ExcelApp = CreateObject("Excel.Application")
         ExcelApp.Visible = False ' for testing only, set to false when go to prod
 
-        Try
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
 
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
+        Try
 
             ' add table headers
             ExcelWkSht.Cells(1, 1) = "SKU"
@@ -726,11 +728,13 @@ Module modCommonUtilities
         End Try
 
         ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
         ExcelRange = Nothing
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
-        ExcelApp.Quit()
-        ExcelApp = Nothing
 
     End Sub
 
@@ -745,20 +749,20 @@ Module modCommonUtilities
         ExcelApp = CreateObject("Excel.Application")
         ExcelApp.Visible = False
 
+        ' instantiate excel objects and declare variables
+        ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+        Dim objResults As Object
+        Dim dblCashDeposit As Double
+        Dim dblCreditDeposit As Double
+        Dim strSelect As String
+        Dim cmdSelect As OleDb.OleDbCommand
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
+
         ' add table data
         Try
-
-            ' instantiate excel objects and declare variables
-            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-            Dim objResults As Object
-            Dim dblCashDeposit As Double
-            Dim dblCreditDeposit As Double
-            Dim strSelect As String
-            Dim cmdSelect As OleDb.OleDbCommand
-
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
 
             ' Open the DB
             If OpenDatabaseConnectionSQLServer() = False Then
@@ -819,6 +823,7 @@ Module modCommonUtilities
             If (My.Computer.FileSystem.FileExists("CashCreditDepositReport.xlsx") = True) Then
                 My.Computer.FileSystem.DeleteFile("CashCreditDepositReport.xlsx")
             End If
+
             ExcelWkSht.SaveAs(strFile)
 
         Catch excError As Exception
@@ -832,11 +837,13 @@ Module modCommonUtilities
         End Try
 
         ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
         ExcelRange = Nothing
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
-        ExcelApp.Quit()
-        ExcelApp = Nothing
 
     End Sub
 
@@ -1003,6 +1010,10 @@ Module modCommonUtilities
             mail.Attachments.Add(attachment)
 
             SmtpServer.Send(mail)
+
+            SmtpServer.Dispose()
+            mail.Dispose()
+
             If (blnQuiet = False) Then
                 MsgBox("Message sent")
             End If

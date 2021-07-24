@@ -42,13 +42,16 @@
                         strDay = txtDay.Text
                         RunTaxReport(Me, False, strYear, strMonth, strDay)
 
-                        strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
+                        GC.Collect()
+                        GC.WaitForPendingFinalizers()
 
-                        strFile = strFile.Remove(0, 6)
+                        'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
+
+                        'strFile = strFile.Remove(0, 6)
 
                         Threading.Thread.Sleep(3000)
 
-                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile, True)
+                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", False)
 
                     End If
                 End If

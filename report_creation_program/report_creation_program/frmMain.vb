@@ -4,6 +4,26 @@ Public Class frmMain
     Dim intElapsedTimeUpdateConfig As Integer = 1000000
     Dim intElapsedTimeRunReport As Integer = 0
 
+    Dim SalesDailyFlag As Boolean = False
+    Dim SalesWeeklyFlag As Boolean = False
+    Dim SalesMonthlyFlag As Boolean = False
+    Dim SalesYearlyFlag As Boolean = False
+
+    Dim InventoryDailyFlag As Boolean = False
+    Dim InventoryWeeklyFlag As Boolean = False
+    Dim InventoryMonthlyFlag As Boolean = False
+    Dim InventoryYearlyFlag As Boolean = False
+
+    Dim TaxDailyFlag As Boolean = False
+    Dim TaxWeeklyFlag As Boolean = False
+    Dim TaxMonthlyFlag As Boolean = False
+    Dim TaxYearlyFlag As Boolean = False
+
+    Dim DepositDailyFlag As Boolean = False
+    Dim DepositWeeklyFlag As Boolean = False
+    Dim DepositMonthlyFlag As Boolean = False
+    Dim DepositYearlyFlag As Boolean = False
+
     Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
 
         ' declare variables
@@ -42,14 +62,17 @@ Public Class frmMain
         ' run inventory report
         RunInventoryReport(Me, False)
 
-        ' email inventory report
-        strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
 
-        strFile = strFile.Remove(0, 6)
+        '' email inventory report
+        'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
+
+        'strFile = strFile.Remove(0, 6)
 
         Threading.Thread.Sleep(3000)
 
-        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile, False)
+        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", False)
 
     End Sub
 
@@ -200,6 +223,42 @@ Public Class frmMain
         InventoryMonthly()
         InventoryYearly()
 
+        ' Sales tax report
+        TaxDaily()
+        TaxMonthly()
+        TaxWeekly()
+        TaxYearly()
+
+        ' Sales tax report
+        DepositDaily()
+        DepositMonthly()
+        DepositWeekly()
+        DepositYearly()
+
+        ' Generate sales
+        GenerateSalesDaily()
+        GenerateSalesWeekly()
+        GenerateSalesMonthly()
+        GenerateSalesYearly()
+
+        ' Generate inventory
+        GenerateInventoryDaily()
+        GenerateInventoryWeekly()
+        GenerateInventoryMonthly()
+        GenerateInventoryYearly()
+
+        ' Generate tax
+        GenerateTaxDaily()
+        GenerateTaxWeekly()
+        GenerateTaxMonthly()
+        GenerateTaxYearly()
+
+        ' Generate deposit
+        GenerateDepositDaily()
+        GenerateDepositWeekly()
+        GenerateDepositMonthly()
+        GenerateDepositYearly()
+
     End Sub
 
 #Region "Sales Automation"
@@ -218,11 +277,8 @@ Public Class frmMain
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    CreateSalesReport(Me, "last day", True)
-
-                    ' email sales report
-                    SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Daily Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+                    ' Turn on
+                    SalesDailyFlag = True
 
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
                     aastrCSVFile(0, 1) = "true"
@@ -245,6 +301,26 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub GenerateSalesDaily()
+
+        If (SalesDailyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            CreateSalesReport(Me, "last day", True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email sales report
+            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Daily Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+
+            ' Turn off
+            SalesDailyFlag = False
+
+        End If
+
+    End Sub
+
     Private Sub SalesWeekly()
 
         ' Run weekly?
@@ -259,11 +335,8 @@ Public Class frmMain
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    CreateSalesReport(Me, "last week", True)
-
-                    ' email sales report
-                    SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Weekly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+                    ' Turn on
+                    SalesWeeklyFlag = True
 
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
                     aastrCSVFile(1, 1) = "true"
@@ -282,6 +355,26 @@ Public Class frmMain
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateSalesWeekly()
+
+        If (SalesWeeklyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            CreateSalesReport(Me, "last week", True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email sales report
+            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Weekly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+
+            ' Turn off
+            SalesWeeklyFlag = False
+
         End If
 
     End Sub
@@ -308,11 +401,8 @@ Public Class frmMain
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    CreateSalesReport(Me, "last month (30 days)", True)
-
-                    ' email sales report
-                    SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Monthly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+                    ' Turn on
+                    SalesMonthlyFlag = True
 
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
                     aastrCSVFile(2, 1) = "true"
@@ -331,6 +421,26 @@ Public Class frmMain
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateSalesMonthly()
+
+        If (SalesMonthlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            CreateSalesReport(Me, "last month (30 days)", True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email sales report
+            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Monthly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+
+            ' Turn off
+            SalesMonthlyFlag = False
+
         End If
 
     End Sub
@@ -357,11 +467,8 @@ Public Class frmMain
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    CreateSalesReport(Me, "last year (365 days)", True)
-
-                    ' email sales report
-                    SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Yearly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+                    ' Turn on
+                    SalesYearlyFlag = True
 
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
                     aastrCSVFile(3, 1) = "true"
@@ -384,6 +491,26 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub GenerateSalesYearly()
+
+        If (SalesYearlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            CreateSalesReport(Me, "last year (365 days)", True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email sales report
+            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Yearly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+
+            ' Turn off
+            SalesYearlyFlag = False
+
+        End If
+
+    End Sub
+
 #End Region
 
 #Region "Inventory Automation"
@@ -398,18 +525,14 @@ Public Class frmMain
             Dim strTarget As String = dtmDailyInventoryReport.ToString("HH:mm")
 
             ' Is the flag false?
-            If (aastrCSVFile(0, 1) = "false") Then
+            If (aastrCSVFile(4, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunInventoryReport(Me, True)
-
-                    ' email Inventory report
-                    SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Daily Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
-
+                    ' On
+                    InventoryDailyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(0, 1) = "true"
+                    aastrCSVFile(4, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -419,12 +542,32 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(0, 1) = "false"
+                    aastrCSVFile(4, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateInventoryDaily()
+
+        If (InventoryDailyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunInventoryReport(Me, True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Inventory report
+            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Daily Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+
+            ' Turn off
+            InventoryDailyFlag = False
+
         End If
 
     End Sub
@@ -439,18 +582,14 @@ Public Class frmMain
             Dim strTarget As String = WeekdayName(Weekday(dtmWeeklyInventoryReport)) & " " & dtmWeeklyInventoryReport.ToString("HH:mm")
 
             ' Is the flag false?
-            If (aastrCSVFile(1, 1) = "false") Then
+            If (aastrCSVFile(5, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunInventoryReport(Me, True)
-
-                    ' email Inventory report
-                    SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Weekly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
-
+                    ' Turn on
+                    InventoryWeeklyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(1, 1) = "true"
+                    aastrCSVFile(5, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -460,12 +599,32 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(1, 1) = "false"
+                    aastrCSVFile(5, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateInventoryWeekly()
+
+        If (InventoryWeeklyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunInventoryReport(Me, True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Inventory report
+            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Weekly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+
+            ' Turn off
+            InventoryWeeklyFlag = False
+
         End If
 
     End Sub
@@ -488,18 +647,14 @@ Public Class frmMain
             End If
 
             ' Is the flag false?
-            If (aastrCSVFile(2, 1) = "false") Then
+            If (aastrCSVFile(6, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunInventoryReport(Me, True)
-
-                    ' email Inventory report
-                    SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Monthly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
-
+                    ' Turn on
+                    InventoryMonthlyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(2, 1) = "true"
+                    aastrCSVFile(6, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -509,12 +664,32 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(2, 1) = "false"
+                    aastrCSVFile(6, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateInventoryMonthly()
+
+        If (InventoryMonthlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunInventoryReport(Me, True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Inventory report
+            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Monthly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+
+            ' Turn off
+            InventoryMonthlyFlag = False
+
         End If
 
     End Sub
@@ -537,18 +712,14 @@ Public Class frmMain
             End If
 
             ' Is the flag false?
-            If (aastrCSVFile(3, 1) = "false") Then
+            If (aastrCSVFile(7, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunInventoryReport(Me, True)
-
-                    ' email Inventory report
-                    SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Yearly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
-
+                    ' Turn on
+                    InventoryYearlyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(3, 1) = "true"
+                    aastrCSVFile(7, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -558,12 +729,32 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(3, 1) = "false"
+                    aastrCSVFile(7, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateInventoryYearly()
+
+        If (InventoryYearlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunInventoryReport(Me, True)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Inventory report
+            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Yearly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+
+            ' Turn off
+            InventoryYearlyFlag = False
+
         End If
 
     End Sub
@@ -582,18 +773,13 @@ Public Class frmMain
             Dim strTarget As String = dtmDailySalesTaxReport.ToString("HH:mm")
 
             ' Is the flag false?
-            If (aastrCSVFile(0, 1) = "false") Then
+            If (aastrCSVFile(8, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
-
-                    ' email Tax report
-                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Daily Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
-
+                    TaxDailyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(0, 1) = "true"
+                    aastrCSVFile(8, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -603,12 +789,31 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(0, 1) = "false"
+                    aastrCSVFile(8, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateTaxDaily()
+
+        If (TaxDailyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Tax report
+            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Daily Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+            TaxDailyFlag = False
+
         End If
 
     End Sub
@@ -623,18 +828,13 @@ Public Class frmMain
             Dim strTarget As String = WeekdayName(Weekday(dtmWeeklySalesTaxReport)) & " " & dtmWeeklySalesTaxReport.ToString("HH:mm")
 
             ' Is the flag false?
-            If (aastrCSVFile(1, 1) = "false") Then
+            If (aastrCSVFile(9, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
-
-                    ' email Tax report
-                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Weekly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
-
+                    TaxWeeklyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(1, 1) = "true"
+                    aastrCSVFile(9, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -644,12 +844,31 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(1, 1) = "false"
+                    aastrCSVFile(9, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateTaxWeekly()
+
+        If (TaxWeeklyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Tax report
+            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Weekly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+            TaxWeeklyFlag = False
+
         End If
 
     End Sub
@@ -672,18 +891,13 @@ Public Class frmMain
             End If
 
             ' Is the flag false?
-            If (aastrCSVFile(2, 1) = "false") Then
+            If (aastrCSVFile(10, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
-
-                    ' email Tax report
-                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Monthly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
-
+                    TaxMonthlyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(2, 1) = "true"
+                    aastrCSVFile(10, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -693,12 +907,31 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(2, 1) = "false"
+                    aastrCSVFile(10, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateTaxMonthly()
+
+        If (TaxMonthlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Tax report
+            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Monthly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+            TaxMonthlyFlag = False
+
         End If
 
     End Sub
@@ -721,18 +954,13 @@ Public Class frmMain
             End If
 
             ' Is the flag false?
-            If (aastrCSVFile(3, 1) = "false") Then
+            If (aastrCSVFile(11, 1) = "false") Then
                 ' If so, is it time to run?
                 If (strNow = strTarget) Then
 
-                    ' Okay, we're in. Run the report in quiet mode
-                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
-
-                    ' email Tax report
-                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Yearly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
-
+                    TaxYearlyFlag = True
                     ' Alright, we're all done. Let's set the flag and keep on keepin' on.
-                    aastrCSVFile(3, 1) = "true"
+                    aastrCSVFile(11, 1) = "true"
                     ' Commit changes
                     WriteCSVFile()
 
@@ -742,12 +970,271 @@ Public Class frmMain
                 If (strNow <> strTarget) Then
 
                     ' Okay, reset
-                    aastrCSVFile(3, 1) = "false"
+                    aastrCSVFile(11, 1) = "false"
                     ' Commit changes
                     WriteCSVFile()
 
                 End If
             End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateTaxYearly()
+
+        If (TaxYearlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Tax report
+            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Yearly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+            TaxYearlyFlag = False
+
+        End If
+
+    End Sub
+
+#End Region
+
+#Region "Deposit Automation"
+
+    Private Sub DepositDaily()
+
+        ' Run daily?
+        If (blnDepositReportDaily = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("HH:mm")
+            Dim strTarget As String = dtmDailyDepositReport.ToString("HH:mm")
+
+            ' Is the flag false?
+            If (aastrCSVFile(12, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    DepositDailyFlag = True
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(12, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(12, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateDepositDaily()
+
+        If (DepositDailyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Deposit report
+            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Daily Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+
+            DepositDailyFlag = False
+
+        End If
+
+    End Sub
+
+    Private Sub DepositWeekly()
+
+        ' Run weekly?
+        If (blnDepositReportWeekly = True) Then
+
+            ' Time period
+            Dim strNow As String = WeekdayName(Weekday(DateTime.Now)) & " " & DateTime.Now.ToString("HH:mm")
+            Dim strTarget As String = WeekdayName(Weekday(dtmWeeklyDepositReport)) & " " & dtmWeeklyDepositReport.ToString("HH:mm")
+
+            ' Is the flag false?
+            If (aastrCSVFile(13, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    DepositWeeklyFlag = True
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(13, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(13, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateDepositWeekly()
+
+        If (DepositWeeklyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Deposit report
+            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Weekly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+
+            DepositWeeklyFlag = False
+
+        End If
+
+    End Sub
+
+    Private Sub DepositMonthly()
+
+        ' Run weekly?
+        If (blnDepositReportMonthly = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("dd HH:mm")
+            Dim strTarget As String
+            Dim intDaysInMonth As Integer = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)
+
+            ' Clamp the days within this month
+            If intDaysInMonth < dtmMonthlyDepositReport.Day Then
+                strTarget = dtmMonthlyDepositReport.ToString(intDaysInMonth & " HH:mm")
+            Else
+                strTarget = dtmMonthlyDepositReport.ToString("dd HH:mm")
+            End If
+
+            ' Is the flag false?
+            If (aastrCSVFile(14, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    DepositMonthlyFlag = True
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(14, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(14, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateDepositMonthly()
+
+        If (DepositMonthlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Deposit report
+            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Monthly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+
+            DepositMonthlyFlag = False
+
+        End If
+
+    End Sub
+
+    Private Sub DepositYearly()
+
+        ' Run weekly?
+        If (blnDepositReportYearly = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("MM/dd HH:mm")
+            Dim strTarget As String
+            Dim intDaysInMonth As Integer = DateTime.DaysInMonth(DateTime.Now.Year, dtmYearlyDepositReport.Month)
+
+            ' Clamp the days within this month
+            If intDaysInMonth < dtmYearlyDepositReport.Day Then
+                strTarget = dtmYearlyDepositReport.ToString("MM/" & intDaysInMonth & " HH:mm")
+            Else
+                strTarget = dtmYearlyDepositReport.ToString("MM/dd HH:mm")
+            End If
+
+            ' Is the flag false?
+            If (aastrCSVFile(15, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    DepositYearlyFlag = True
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(15, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(15, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub GenerateDepositYearly()
+
+        If (DepositYearlyFlag = True) Then
+
+            ' Okay, we're in. Run the report in quiet mode
+            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+            ' email Deposit report
+            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Yearly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+
+            DepositYearlyFlag = False
+
         End If
 
     End Sub

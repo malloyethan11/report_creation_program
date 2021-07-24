@@ -42,13 +42,19 @@
                         strDay = txtDay.Text
                         RunCashCreditReport(Me, False, strYear, strMonth, strDay)
 
-                        strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\CashCreditDepositReport.xlsx"
+                        GC.Collect()
+                        GC.WaitForPendingFinalizers()
 
-                        strFile = strFile.Remove(0, 6)
+                        'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\CashCreditDepositReport.xlsx"
+
+                        'strFile = strFile.Remove(0, 6)
 
                         Threading.Thread.Sleep(3000)
 
-                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Cash/Credit Deposit Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile, False)
+                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Cash/Credit Deposit Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", False)
+
+                        'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\CashCreditDepositReport.xlsx"
+
 
                     End If
                 End If

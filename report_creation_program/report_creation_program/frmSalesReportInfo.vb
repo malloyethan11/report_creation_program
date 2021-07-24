@@ -34,6 +34,9 @@ Public Class frmSalesReportInfo
                 ' create sales report
                 CreateSalesReport(Me, strTimePeriod, False)
 
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+
                 ' email sales report
                 SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
 
