@@ -49,7 +49,7 @@ Public Class frmMain
 
         Threading.Thread.Sleep(3000)
 
-        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile)
+        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile, False)
 
     End Sub
 

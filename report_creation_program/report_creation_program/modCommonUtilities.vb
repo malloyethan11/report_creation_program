@@ -230,6 +230,15 @@ Module modCommonUtilities
 
     Public Sub RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
 
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = True ' for testing only, set to false when go to prod
+
         Try
 
             ' declare variables
@@ -237,10 +246,6 @@ Module modCommonUtilities
             Dim cmdSelect As OleDb.OleDbCommand
             'Dim drSourceTable As OleDb.OleDbDataReader
             Dim dt As DataTable = New DataTable
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
             Dim objResults As Object
             Dim dblOhioTaxRate As Double = 7.8
             Dim intGrossSalesQty As Integer
@@ -267,10 +272,6 @@ Module modCommonUtilities
             Dim dblPayinAmount As Double
             Dim dblPayoutAmount As Double
             Dim dblTaxableSubtotal As Double
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = True ' for testing only, set to false when go to prod
 
             ' Add a new workbook
             ExcelWkBk = ExcelApp.Workbooks.Add
@@ -588,17 +589,10 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("TaxReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("TaxReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
-
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
 
         Catch excError As Exception
 
@@ -611,6 +605,13 @@ Module modCommonUtilities
             End If
 
         End Try
+
+        ' Release object references.
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+        ExcelApp.Quit()
+        ExcelApp = Nothing
 
     End Sub
 
