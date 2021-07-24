@@ -210,6 +210,8 @@ Public Class frmMain
 
     End Sub
 
+#Region "Sales Automation"
+
     Private Sub SalesDaily()
 
         ' Run daily?
@@ -390,6 +392,9 @@ Public Class frmMain
 
     End Sub
 
+#End Region
+
+#Region "Inventory Automation"
 
     Private Sub InventoryDaily()
 
@@ -570,6 +575,192 @@ Public Class frmMain
         End If
 
     End Sub
+
+#End Region
+
+#Region "Sales Tax Automation"
+
+    Private Sub TaxDaily()
+
+        ' Run daily?
+        If (blnSalesTaxReportDaily = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("HH:mm")
+            Dim strTarget As String = dtmDailySalesTaxReport.ToString("HH:mm")
+
+            ' Is the flag false?
+            If (aastrCSVFile(0, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    ' Okay, we're in. Run the report in quiet mode
+                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+                    ' email Tax report
+                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Daily Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(0, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(0, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub TaxWeekly()
+
+        ' Run weekly?
+        If (blnSalesTaxReportWeekly = True) Then
+
+            ' Time period
+            Dim strNow As String = WeekdayName(Weekday(DateTime.Now)) & " " & DateTime.Now.ToString("HH:mm")
+            Dim strTarget As String = WeekdayName(Weekday(dtmWeeklySalesTaxReport)) & " " & dtmWeeklySalesTaxReport.ToString("HH:mm")
+
+            ' Is the flag false?
+            If (aastrCSVFile(1, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    ' Okay, we're in. Run the report in quiet mode
+                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+                    ' email Tax report
+                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Weekly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(1, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(1, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub TaxMonthly()
+
+        ' Run weekly?
+        If (blnSalesTaxReportMonthly = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("dd HH:mm")
+            Dim strTarget As String
+            Dim intDaysInMonth As Integer = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)
+
+            ' Clamp the days within this month
+            If intDaysInMonth < dtmMonthlySalesTaxReport.Day Then
+                strTarget = dtmMonthlySalesTaxReport.ToString(intDaysInMonth & " HH:mm")
+            Else
+                strTarget = dtmMonthlySalesTaxReport.ToString("dd HH:mm")
+            End If
+
+            ' Is the flag false?
+            If (aastrCSVFile(2, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    ' Okay, we're in. Run the report in quiet mode
+                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+                    ' email Tax report
+                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Monthly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(2, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(2, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+    Private Sub TaxYearly()
+
+        ' Run weekly?
+        If (blnSalesTaxReportYearly = True) Then
+
+            ' Time period
+            Dim strNow As String = DateTime.Now.ToString("MM/dd HH:mm")
+            Dim strTarget As String
+            Dim intDaysInMonth As Integer = DateTime.DaysInMonth(DateTime.Now.Year, dtmYearlySalesTaxReport.Month)
+
+            ' Clamp the days within this month
+            If intDaysInMonth < dtmYearlySalesTaxReport.Day Then
+                strTarget = dtmYearlySalesTaxReport.ToString("MM/" & intDaysInMonth & " HH:mm")
+            Else
+                strTarget = dtmYearlySalesTaxReport.ToString("MM/dd HH:mm")
+            End If
+
+            ' Is the flag false?
+            If (aastrCSVFile(3, 1) = "false") Then
+                ' If so, is it time to run?
+                If (strNow = strTarget) Then
+
+                    ' Okay, we're in. Run the report in quiet mode
+                    RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+
+                    ' email Tax report
+                    SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Yearly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+
+                    ' Alright, we're all done. Let's set the flag and keep on keepin' on.
+                    aastrCSVFile(3, 1) = "true"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            Else
+                ' If not, should I reset the flag?
+                If (strNow <> strTarget) Then
+
+                    ' Okay, reset
+                    aastrCSVFile(3, 1) = "false"
+                    ' Commit changes
+                    WriteCSVFile()
+
+                End If
+            End If
+        End If
+
+    End Sub
+
+#End Region
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
