@@ -17,18 +17,10 @@ Public Class frmMain
     Private Sub btnTaxReport_Click(sender As Object, e As EventArgs) Handles btnTaxReport.Click
 
         ' declare variables
-        Dim strUserInput As String
+        Dim frmTaxReportInfo = New frmTaxReportInfo()
 
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-        ' don't progress if user enters blank input/presses cancel
-        If strUserInput = "" Then
-            Exit Sub
-        End If
-
-        ' get tax report
-        RunTaxReport()
+        ' open child form to get user input and run tax report
+        frmTaxReportInfo.ShowDialog()
 
     End Sub
 
@@ -42,6 +34,7 @@ Public Class frmMain
 
         ' don't progress if user enters blank input/presses cancel
         If strUserInput = "" Then
+            MessageBox.Show("You failed to enter an email address or clicked cancel. The operation will terminate, and no report will be generated.")
             Exit Sub
         End If
 
@@ -50,7 +43,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub btnCashDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashDepositReport.Click
+    Private Sub btnCashCreditDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashCreditDepositReport.Click
 
         ' declare variables
         Dim strUserInput As String
@@ -60,20 +53,14 @@ Public Class frmMain
 
         ' don't progress if user enters blank input/presses cancel
         If strUserInput = "" Then
+            MessageBox.Show("You failed to enter an email address or clicked cancel. The operation will terminate, and no report will be generated.")
             Exit Sub
         End If
 
-    End Sub
-
-    Private Sub btnCreditDepositReport_Click(sender As Object, e As EventArgs) Handles btnCreditDepositReport.Click
-
-        ' declare variables
-        Dim strUserInput As String
-
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
+        RunCashCreditReport()
 
     End Sub
+
 
     Friend WithEvents btnExit As Button
 
@@ -389,4 +376,6 @@ Public Class frmMain
         End If
 
     End Sub
+
+
 End Class
