@@ -136,8 +136,8 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("SalesReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("SalesReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
@@ -709,8 +709,8 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("InventoryReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("InventoryReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
@@ -865,7 +865,7 @@ Module modCommonUtilities
     End Sub
 
     ' Send Mail Function copied from: http://vb.net-informations.com/communications/vb.net_smtp_mail.htm
-    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String, blnQuit As Boolean)
+    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String, blnQuiet As Boolean)
         Try
             Dim SmtpServer As New SmtpClient()
             Dim mail As New MailMessage()
@@ -896,12 +896,12 @@ Module modCommonUtilities
             mail.Attachments.Add(attachment)
 
             SmtpServer.Send(mail)
-            If (blnQuit = False) Then
+            If (blnQuiet = False) Then
                 MsgBox("Message sent")
             End If
             Return 0
         Catch ex As Exception
-            If (blnQuit = False) Then
+            If (blnQuiet = False) Then
                 MsgBox(ex.ToString)
             End If
             Return ex.Message.Length

@@ -48,7 +48,7 @@
 
                         Threading.Thread.Sleep(3000)
 
-                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile)
+                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile, True)
 
                     End If
                 End If
