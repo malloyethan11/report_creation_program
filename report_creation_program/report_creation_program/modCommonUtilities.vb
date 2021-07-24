@@ -736,24 +736,25 @@ Module modCommonUtilities
 
     Public Sub RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
 
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False
+
         ' add table data
         Try
 
             ' instantiate excel objects and declare variables
             ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
             Dim objResults As Object
             Dim dblCashDeposit As Double
             Dim dblCreditDeposit As Double
             Dim strSelect As String
             Dim cmdSelect As OleDb.OleDbCommand
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = False
 
             ' Add a new workbook
             ExcelWkBk = ExcelApp.Workbooks.Add
@@ -820,13 +821,6 @@ Module modCommonUtilities
             End If
             ExcelWkSht.SaveAs(strFile)
 
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
-
         Catch excError As Exception
             If (blnQuiet = False) Then
                 ' Log and display error message
@@ -836,6 +830,13 @@ Module modCommonUtilities
             End If
 
         End Try
+
+        ' Release object references.
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+        ExcelApp.Quit()
+        ExcelApp = Nothing
 
     End Sub
 
