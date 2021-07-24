@@ -136,8 +136,8 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("SalesReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("SalesReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
@@ -329,8 +329,8 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("InventoryReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("InventoryReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
