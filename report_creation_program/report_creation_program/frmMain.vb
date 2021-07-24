@@ -27,19 +27,29 @@ Public Class frmMain
     Private Sub btnInventoryReport_Click(sender As Object, e As EventArgs) Handles btnInventoryReport.Click
 
         ' declare variables
-        Dim strUserInput As String
+        Dim strToEmail As String
+        Dim strFile As String
 
         ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
+        strToEmail = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
 
         ' don't progress if user enters blank input/presses cancel
-        If strUserInput = "" Then
+        If strToEmail = "" Then
             MessageBox.Show("You failed to enter an email address or clicked cancel. The operation will terminate, and no report will be generated.")
             Exit Sub
         End If
 
         ' run inventory report
         RunInventoryReport(Me, False)
+
+        ' email inventory report
+        strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
+
+        strFile = strFile.Remove(0, 6)
+
+        Threading.Thread.Sleep(3000)
+
+        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", strFile)
 
     End Sub
 
