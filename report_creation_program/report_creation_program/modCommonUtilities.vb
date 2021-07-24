@@ -732,6 +732,111 @@ Module modCommonUtilities
 
     End Sub
 
+    Public Sub RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+
+        ' add table data
+        Try
+
+            ' instantiate excel objects and declare variables
+            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+            Dim ExcelApp As Excel.Application
+            Dim ExcelWkBk As Excel.Workbook
+            Dim ExcelWkSht As Excel.Worksheet
+            Dim ExcelRange As Excel.Range
+            Dim objResults As Object
+            Dim dblCashDeposit As Double
+            Dim dblCreditDeposit As Double
+            Dim strSelect As String
+            Dim cmdSelect As OleDb.OleDbCommand
+
+            ' start excel and get application object
+            ExcelApp = CreateObject("Excel.Application")
+            ExcelApp.Visible = False
+
+            ' Add a new workbook
+            ExcelWkBk = ExcelApp.Workbooks.Add
+            ExcelWkSht = ExcelWkBk.ActiveSheet
+
+            ' Open the DB
+            If OpenDatabaseConnectionSQLServer() = False Then
+
+                If (blnQuiet = False) Then
+                    ' The database is not open
+                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                                "The form will now close.",
+                                frmMe.Text + " Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    ' Close the form/application
+                    frmMe.Close()
+                Else
+                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                End If
+
+            End If
+
+            ' build the select statements
+            ' get cash deposits
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intPaymentTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblCashDeposit = 0
+            Else
+                dblCashDeposit = CDbl(objResults)
+            End If
+
+
+            ' get credit deposits
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intPaymentTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblCreditDeposit = 0
+            Else
+                dblCreditDeposit = CDbl(objResults)
+            End If
+
+
+            ' add table headers and data
+            ExcelWkSht.Cells(1, 1) = "Cash Deposit for " & strYear & "-" & strMonth & "-" & strDay
+            ExcelWkSht.Cells(1, 2) = "Credit Deposit for " & strYear & "-" & strMonth & "-" & strDay
+            ExcelWkSht.Cells(2, 1) = dblCashDeposit
+            ExcelWkSht.Cells(2, 2) = dblCreditDeposit
+
+            Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\CashCreditDepositReport.xlsx"
+
+            ' Save
+            If (My.Computer.FileSystem.FileExists("CashCreditDepositReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("CashCreditDepositReport.xlsx")
+            End If
+            ExcelWkSht.SaveAs(strFile)
+
+            ' Release object references.
+            ExcelRange = Nothing
+            ExcelWkSht = Nothing
+            ExcelWkBk = Nothing
+            ExcelApp.Quit()
+            ExcelApp = Nothing
+
+        Catch excError As Exception
+            If (blnQuiet = False) Then
+                ' Log and display error message
+                MessageBox.Show(excError.Message)
+            Else
+                Console.WriteLine(excError.Message)
+            End If
+
+        End Try
+
+    End Sub
+
     Public Sub ReadCSVFile()
 
         Try
@@ -902,11 +1007,5 @@ Module modCommonUtilities
             Return ex.Message.Length
         End Try
     End Function
-
-    Public Sub RunCashCreditReport()
-
-
-
-    End Sub
 
 End Module

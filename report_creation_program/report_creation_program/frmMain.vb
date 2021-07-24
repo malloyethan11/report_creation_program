@@ -56,18 +56,10 @@ Public Class frmMain
     Private Sub btnCashCreditDepositReport_Click(sender As Object, e As EventArgs) Handles btnCashCreditDepositReport.Click
 
         ' declare variables
-        Dim strUserInput As String
+        Dim frmCashCreditDepositReportInfo = New frmCashCreditDepositReportInfo()
 
-        ' show messagebox asking user where they want to send the report
-        strUserInput = InputBox("Please enter the email address you want to send the report to.", "User Input Required")
-
-        ' don't progress if user enters blank input/presses cancel
-        If strUserInput = "" Then
-            MessageBox.Show("You failed to enter an email address or clicked cancel. The operation will terminate, and no report will be generated.")
-            Exit Sub
-        End If
-
-        RunCashCreditReport()
+        ' Opens form to get user input and run deposits report
+        frmCashCreditDepositReportInfo.ShowDialog()
 
     End Sub
 
