@@ -28,8 +28,7 @@ Partial Class frmMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.btnCreditDepositReport = New System.Windows.Forms.Button()
-        Me.btnCashDepositReport = New System.Windows.Forms.Button()
+        Me.btnCashCreditDepositReport = New System.Windows.Forms.Button()
         Me.btnInventoryReport = New System.Windows.Forms.Button()
         Me.btnTaxReport = New System.Windows.Forms.Button()
         Me.btnSalesReport = New System.Windows.Forms.Button()
@@ -39,47 +38,38 @@ Partial Class frmMain
         Me.tmrCheckIfReportRun = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
-        'btnCreditDepositReport
+        'btnCashCreditDepositReport
         '
-        Me.btnCreditDepositReport.Location = New System.Drawing.Point(12, 290)
-        Me.btnCreditDepositReport.Name = "btnCreditDepositReport"
-        Me.btnCreditDepositReport.Size = New System.Drawing.Size(135, 46)
-        Me.btnCreditDepositReport.TabIndex = 0
-        Me.btnCreditDepositReport.Text = "Credit Deposit Report"
-        Me.btnCreditDepositReport.UseVisualStyleBackColor = True
-        '
-        'btnCashDepositReport
-        '
-        Me.btnCashDepositReport.Location = New System.Drawing.Point(12, 225)
-        Me.btnCashDepositReport.Name = "btnCashDepositReport"
-        Me.btnCashDepositReport.Size = New System.Drawing.Size(135, 46)
-        Me.btnCashDepositReport.TabIndex = 1
-        Me.btnCashDepositReport.Text = "Cash Deposit Report"
-        Me.btnCashDepositReport.UseVisualStyleBackColor = True
+        Me.btnCashCreditDepositReport.Location = New System.Drawing.Point(12, 267)
+        Me.btnCashCreditDepositReport.Name = "btnCashCreditDepositReport"
+        Me.btnCashCreditDepositReport.Size = New System.Drawing.Size(135, 75)
+        Me.btnCashCreditDepositReport.TabIndex = 1
+        Me.btnCashCreditDepositReport.Text = "Cash/Credit Deposit Report"
+        Me.btnCashCreditDepositReport.UseVisualStyleBackColor = True
         '
         'btnInventoryReport
         '
-        Me.btnInventoryReport.Location = New System.Drawing.Point(12, 157)
+        Me.btnInventoryReport.Location = New System.Drawing.Point(13, 186)
         Me.btnInventoryReport.Name = "btnInventoryReport"
-        Me.btnInventoryReport.Size = New System.Drawing.Size(135, 46)
+        Me.btnInventoryReport.Size = New System.Drawing.Size(135, 75)
         Me.btnInventoryReport.TabIndex = 2
         Me.btnInventoryReport.Text = "Inventory Report"
         Me.btnInventoryReport.UseVisualStyleBackColor = True
         '
         'btnTaxReport
         '
-        Me.btnTaxReport.Location = New System.Drawing.Point(12, 93)
+        Me.btnTaxReport.Location = New System.Drawing.Point(13, 105)
         Me.btnTaxReport.Name = "btnTaxReport"
-        Me.btnTaxReport.Size = New System.Drawing.Size(135, 46)
+        Me.btnTaxReport.Size = New System.Drawing.Size(135, 75)
         Me.btnTaxReport.TabIndex = 3
         Me.btnTaxReport.Text = "Tax Report"
         Me.btnTaxReport.UseVisualStyleBackColor = True
         '
         'btnSalesReport
         '
-        Me.btnSalesReport.Location = New System.Drawing.Point(12, 29)
+        Me.btnSalesReport.Location = New System.Drawing.Point(13, 24)
         Me.btnSalesReport.Name = "btnSalesReport"
-        Me.btnSalesReport.Size = New System.Drawing.Size(135, 46)
+        Me.btnSalesReport.Size = New System.Drawing.Size(135, 75)
         Me.btnSalesReport.TabIndex = 4
         Me.btnSalesReport.Text = "Sales Report"
         Me.btnSalesReport.UseVisualStyleBackColor = True
@@ -122,17 +112,14 @@ Partial Class frmMain
         Me.Controls.Add(Me.btnSalesReport)
         Me.Controls.Add(Me.btnTaxReport)
         Me.Controls.Add(Me.btnInventoryReport)
-        Me.Controls.Add(Me.btnCashDepositReport)
-        Me.Controls.Add(Me.btnCreditDepositReport)
+        Me.Controls.Add(Me.btnCashCreditDepositReport)
         Me.Name = "frmMain"
         Me.Text = "Home"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents btnCreditDepositReport As Button
-    Friend WithEvents btnCashDepositReport As Button
+    Friend WithEvents btnCashCreditDepositReport As Button
     Friend WithEvents btnInventoryReport As Button
     Friend WithEvents btnTaxReport As Button
     Friend WithEvents btnSalesReport As Button

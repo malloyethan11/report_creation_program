@@ -228,9 +228,389 @@ Module modCommonUtilities
 
     End Function
 
-    Public Sub RunTaxReport()
+    Public Sub RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+
+        Try
+
+            ' declare variables
+            Dim strSelect As String
+            Dim cmdSelect As OleDb.OleDbCommand
+            'Dim drSourceTable As OleDb.OleDbDataReader
+            Dim dt As DataTable = New DataTable
+            Dim ExcelApp As Excel.Application
+            Dim ExcelWkBk As Excel.Workbook
+            Dim ExcelWkSht As Excel.Worksheet
+            Dim ExcelRange As Excel.Range
+            Dim objResults As Object
+            Dim dblOhioTaxRate As Double = 7.8
+            Dim intGrossSalesQty As Integer
+            Dim dblGrossSalesTotal As Double
+            'Dim dblGrossSalesAvg As Double
+            Dim intReturnsQty As Integer
+            Dim dblReturnsTotal As Double
+            'Dim dblReturnsAvg As Double
+            Dim intNetSalesQty As Integer
+            Dim dblNetSalesTotal As Double
+            'Dim dblNetSalesAvg As Double
+            Dim dblTaxesTotal As Double
+            Dim intTicketTotalQty As Integer
+            Dim dblTicketTotalTotal As Double
+            'Dim dblTicketTotalAvg As Double
+            Dim intPaymentsWithCash As Integer
+            Dim intPaymentsWithCredit As Integer
+            Dim dblCashAmount As Double
+            Dim dblCreditAmount As Double
+            Dim dblTotalCash As Double
+            Dim dblTotalCredit As Double
+            Dim intPayinQty As Integer
+            Dim intPayoutQty As Integer
+            Dim dblPayinAmount As Double
+            Dim dblPayoutAmount As Double
+            Dim dblTaxableSubtotal As Double
+
+            ' start excel and get application object
+            ExcelApp = CreateObject("Excel.Application")
+            ExcelApp.Visible = True ' for testing only, set to false when go to prod
+
+            ' Add a new workbook
+            ExcelWkBk = ExcelApp.Workbooks.Add
+            ExcelWkSht = ExcelWkBk.ActiveSheet
+
+            ' Open the DB
+            If OpenDatabaseConnectionSQLServer() = False Then
+
+                ' The database is not open
+                If blnQuiet = False Then
+                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                                "The form will now close.",
+                                frmMe.Text + " Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    ' Close the form/application
+                    frmMe.Close()
+                Else
+                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                End If
+
+            End If
 
 
+
+            ' BUILD THE SELECT STATEMENTS
+
+            ' GET GROSS SALES QUANTITY 
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intGrossSalesQty = 0
+            Else
+                intGrossSalesQty = CDbl(objResults)
+            End If
+
+
+
+            ' GET GROSS SALES TOTAL 
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblGrossSalesTotal = 0
+            Else
+                dblGrossSalesTotal = CDbl(objResults)
+            End If
+
+
+            ' GET RETURNS QUANTITY
+            strSelect = "SELECT COUNT(intTransactionTypeID) FROM TTransactions WHERE intTransactionTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intReturnsQty = 0
+            Else
+                intReturnsQty = CDbl(objResults)
+            End If
+
+
+            ' GET RETURNS TOTAL 
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE intTransactionTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblReturnsTotal = 0
+            Else
+                dblReturnsTotal = CDbl(objResults)
+            End If
+
+
+            ' GET NET SALES QUANTITY
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intNetSalesQty = 0
+            Else
+                intNetSalesQty = CDbl(objResults)
+            End If
+
+
+            ' GET NET SALES TOTAL
+            strSelect = "SELECT SUM(decTotalPrice) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblNetSalesTotal = 0
+            Else
+                dblNetSalesTotal = CDbl(objResults)
+            End If
+
+
+            ' GET TOTAL TAXES
+            strSelect = "SELECT SUM(decSalesTax) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblTaxesTotal = 0
+            Else
+                dblTaxesTotal = CDbl(objResults)
+            End If
+
+
+            ' GET TICKET TOTAL QUANTITY
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intTicketTotalQty = 0
+            Else
+                intTicketTotalQty = CDbl(objResults)
+            End If
+
+
+            ' GET NUM PAYMENTS WITH CASH
+            strSelect = "SELECT COUNT(intPaymentTypeID) FROM TTransactions WHERE intPaymentTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intPaymentsWithCash = 0
+            Else
+                intPaymentsWithCash = CDbl(objResults)
+            End If
+
+
+            ' GET NUM PAYMENTS WITH CREDIT
+            strSelect = "SELECT COUNT(intPaymentTypeID) FROM TTransactions WHERE intPaymentTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intPaymentsWithCredit = 0
+            Else
+                intPaymentsWithCredit = CDbl(objResults)
+            End If
+
+
+            ' GET CASH AMOUNT PAID
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE intPaymentTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblCashAmount = 0
+            Else
+                dblCashAmount = CDbl(objResults)
+            End If
+
+
+            ' GET CREDIT AMOUNT PAID
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE intPaymentTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblCreditAmount = 0
+            Else
+                dblCreditAmount = CDbl(objResults)
+            End If
+
+
+            ' GET NUM PAY-INS
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE intTransactionTypeID = 7 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intPayinQty = 0
+            Else
+                intPayinQty = CDbl(objResults)
+            End If
+
+
+            ' GET NUM PAY-OUTS
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE intTransactionTypeID = 8 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                intPayoutQty = 0
+            Else
+                intPayoutQty = CDbl(objResults)
+            End If
+
+
+            ' GET PAY-IN TOTAL
+            strSelect = "SELECT SUM(decTotalPrice) FROM TTransactions WHERE intTransactionTypeID = 7 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblPayinAmount = 0
+            Else
+                dblPayinAmount = CDbl(objResults)
+            End If
+
+
+            ' GET PAY-OUT TOTAL
+            strSelect = "SELECT SUM(decTotalPrice) FROM TTransactions WHERE intTransactionTypeID = 8 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+            cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
+            cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
+            cmdSelect.Parameters.AddWithValue("dtTransactionDay", strDay)
+            objResults = cmdSelect.ExecuteScalar
+            If IsDBNull(objResults) Then
+                dblPayoutAmount = 0
+            Else
+                dblPayoutAmount = CDbl(objResults)
+            End If
+
+
+            ' add table headers going cell by cell
+            ExcelWkSht.Cells(1, 1) = "TRINITY CHURCH SUPPLY"
+            ExcelWkSht.Cells(2, 1) = "5479 NORTH BEND RD."
+            ExcelWkSht.Cells(3, 1) = "CINCINNATI, OH 45247"
+            ExcelWkSht.Cells(1, 10) = "Store Summary"
+            ExcelWkSht.Cells(2, 10) = System.DateTime.Now.ToString
+
+            ExcelWkSht.Cells(5, 2) = "Quantity"
+            ExcelWkSht.Cells(5, 3) = "Total"
+            ExcelWkSht.Cells(5, 4) = "Average"
+            ExcelWkSht.Cells(6, 1) = "GROSS SALES"
+            ExcelWkSht.Cells(6, 2) = intGrossSalesQty
+            ExcelWkSht.Cells(6, 3) = dblGrossSalesTotal
+            ExcelWkSht.Cells(6, 4) = (dblGrossSalesTotal / intGrossSalesQty)
+            ExcelWkSht.Cells(7, 1) = "Gross Returns"
+            ExcelWkSht.Cells(7, 2) = intReturnsQty
+            ExcelWkSht.Cells(7, 3) = dblReturnsTotal
+            ExcelWkSht.Cells(7, 4) = (dblReturnsTotal / intReturnsQty)
+            ExcelWkSht.Cells(8, 1) = "NET SALES"
+            ExcelWkSht.Cells(8, 2) = intNetSalesQty
+            ExcelWkSht.Cells(8, 3) = dblNetSalesTotal
+            ExcelWkSht.Cells(8, 4) = (dblNetSalesTotal / intNetSalesQty)
+            ExcelWkSht.Cells(9, 1) = "Taxes"
+            ExcelWkSht.Cells(9, 3) = dblTaxesTotal
+            ExcelWkSht.Cells(10, 1) = "TICKET TOTAL"
+            ExcelWkSht.Cells(10, 2) = intTicketTotalQty
+            dblTicketTotalTotal = dblNetSalesTotal + dblTaxesTotal
+            ExcelWkSht.Cells(10, 3) = dblTicketTotalTotal
+            ExcelWkSht.Cells(10, 4) = (dblTicketTotalTotal / intTicketTotalQty)
+
+            ExcelWkSht.Cells(12, 1) = "PAYMENT TYPES"
+            ExcelWkSht.Cells(12, 2) = "Quantity"
+            ExcelWkSht.Cells(12, 3) = "Amount"
+            ExcelWkSht.Cells(12, 4) = "Total Amount"
+            ExcelWkSht.Cells(13, 1) = "Cash"
+            ExcelWkSht.Cells(13, 2) = intPaymentsWithCash
+            ExcelWkSht.Cells(13, 3) = dblCashAmount
+            ExcelWkSht.Cells(13, 4) = dblTotalCash
+            ExcelWkSht.Cells(14, 1) = "Credit Card"
+            ExcelWkSht.Cells(14, 2) = intPaymentsWithCredit
+            ExcelWkSht.Cells(14, 3) = dblCreditAmount
+            ExcelWkSht.Cells(14, 4) = dblTotalCredit
+
+            ExcelWkSht.Cells(16, 2) = "Quantity"
+            ExcelWkSht.Cells(16, 3) = "Amount"
+            ExcelWkSht.Cells(17, 1) = "Payins"
+            ExcelWkSht.Cells(17, 2) = intPayinQty
+            ExcelWkSht.Cells(17, 3) = dblPayinAmount
+            ExcelWkSht.Cells(18, 1) = "Payouts"
+            ExcelWkSht.Cells(18, 2) = intPayoutQty
+            ExcelWkSht.Cells(18, 3) = dblPayoutAmount
+
+            ExcelWkSht.Cells(20, 1) = "TAX CATEGORIES"
+            ExcelWkSht.Cells(20, 2) = "Rate %"
+            ExcelWkSht.Cells(20, 3) = "Taxable Subtotal"
+            ExcelWkSht.Cells(21, 1) = "Ohio Tax"
+            ExcelWkSht.Cells(21, 2) = dblOhioTaxRate
+            ExcelWkSht.Cells(21, 3) = dblNetSalesTotal
+
+
+            ' close the database connection
+            CloseDatabaseConnection()
+
+            Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
+
+            ' Save
+            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
+                My.Computer.FileSystem.DeleteFile(strFile)
+            End If
+            ExcelWkSht.SaveAs(strFile)
+
+            ' Release object references.
+            ExcelRange = Nothing
+            ExcelWkSht = Nothing
+            ExcelWkBk = Nothing
+            ExcelApp.Quit()
+            ExcelApp = Nothing
+
+        Catch excError As Exception
+
+            If blnQuiet = False Then
+                ' Log and display error message
+                MessageBox.Show(excError.Message)
+            Else
+                ' Log message in console
+                Console.WriteLine(excError.Message)
+            End If
+
+        End Try
 
     End Sub
 
@@ -527,5 +907,11 @@ Module modCommonUtilities
             Return ex.Message.Length
         End Try
     End Function
+
+    Public Sub RunCashCreditReport()
+
+
+
+    End Sub
 
 End Module
