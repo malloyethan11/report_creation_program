@@ -44,10 +44,6 @@ D:\College Homework\CAPSTONE\TEST REPO\report_creation_program\report_creation_p
 D:\College Homework\CAPSTONE\TEST REPO\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.exe
 D:\College Homework\CAPSTONE\TEST REPO\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.xml
 D:\College Homework\CAPSTONE\TEST REPO\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.pdb
-<<<<<<< HEAD
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmGetDatabaseCredentials.resources
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmTaxReportInfo.resources
-=======
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.exe.config
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.exe
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\TestNET.pdb
@@ -63,5 +59,4 @@ D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\rep
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.exe
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.xml
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.pdb
->>>>>>> main
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmTaxReportInfo.resources
