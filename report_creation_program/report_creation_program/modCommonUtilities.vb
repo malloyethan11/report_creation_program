@@ -84,16 +84,17 @@ Module modCommonUtilities
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
 
+
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
         Try
-
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = False ' for testing only, set to false when go to prod
 
             ' Add a new workbook
             ExcelWkBk = ExcelApp.Workbooks.Add
@@ -135,17 +136,10 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("SalesReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("SalesReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
-
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
 
         Catch excError As Exception
 
@@ -153,6 +147,12 @@ Module modCommonUtilities
             MessageBox.Show(excError.Message)
 
         End Try
+        ' Release object references.
+        ExcelRange = Nothing
+            ExcelWkSht = Nothing
+            ExcelWkBk = Nothing
+            ExcelApp.Quit()
+            ExcelApp = Nothing
 
     End Sub
 
@@ -230,6 +230,15 @@ Module modCommonUtilities
 
     Public Sub RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
 
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = True ' for testing only, set to false when go to prod
+
         Try
 
             ' declare variables
@@ -237,10 +246,6 @@ Module modCommonUtilities
             Dim cmdSelect As OleDb.OleDbCommand
             'Dim drSourceTable As OleDb.OleDbDataReader
             Dim dt As DataTable = New DataTable
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
             Dim objResults As Object
             Dim dblOhioTaxRate As Double = 7.8
             Dim intGrossSalesQty As Integer
@@ -267,10 +272,6 @@ Module modCommonUtilities
             Dim dblPayinAmount As Double
             Dim dblPayoutAmount As Double
             Dim dblTaxableSubtotal As Double
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = True ' for testing only, set to false when go to prod
 
             ' Add a new workbook
             ExcelWkBk = ExcelApp.Workbooks.Add
@@ -588,17 +589,10 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("TaxReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("TaxReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
-
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
 
         Catch excError As Exception
 
@@ -612,26 +606,34 @@ Module modCommonUtilities
 
         End Try
 
+        ' Release object references.
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+
     End Sub
 
     Public Sub RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean)
 
         ' add table data
+
+        ' instantiate excel objects and declare variables
+        ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim intNumRecords As Integer
+        Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
+        Dim intRecordIndex As Integer = 0
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
         Try
-
-            ' instantiate excel objects and declare variables
-            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
-            Dim intNumRecords As Integer
-            Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
-            Dim intRecordIndex As Integer = 0
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = True ' for testing only, set to false when go to prod
 
             ' Add a new workbook
             ExcelWkBk = ExcelApp.Workbooks.Add
@@ -708,17 +710,10 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("InventoryReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("InventoryReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
-
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
 
         Catch excError As Exception
             If (blnQuiet = False) Then
@@ -729,6 +724,13 @@ Module modCommonUtilities
             End If
 
         End Try
+
+        ' Release object references.
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+        ExcelApp.Quit()
+        ExcelApp = Nothing
 
     End Sub
 
@@ -969,7 +971,7 @@ Module modCommonUtilities
     End Sub
 
     ' Send Mail Function copied from: http://vb.net-informations.com/communications/vb.net_smtp_mail.htm
-    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String)
+    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String, blnQuiet As Boolean)
         Try
             Dim SmtpServer As New SmtpClient()
             Dim mail As New MailMessage()
@@ -1000,10 +1002,14 @@ Module modCommonUtilities
             mail.Attachments.Add(attachment)
 
             SmtpServer.Send(mail)
-            MsgBox("mail send")
+            If (blnQuiet = False) Then
+                MsgBox("Message sent")
+            End If
             Return 0
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            If (blnQuiet = False) Then
+                MsgBox(ex.ToString)
+            End If
             Return ex.Message.Length
         End Try
     End Function
