@@ -178,10 +178,12 @@ Module modCommonUtilities
                                 frmMe.Text + " Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error)
                     ' Close the form/application
-                    frmMe.Close()
+                    ' frmMe.Close()
                 Else
                     Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
                 End If
+
+                Exit Try
 
             End If
 
@@ -289,10 +291,12 @@ Module modCommonUtilities
                                 frmMe.Text + " Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error)
                     ' Close the form/application
-                    frmMe.Close()
+                    ' frmMe.Close()
                 Else
                     Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
                 End If
+
+                Exit Try
 
             End If
 
@@ -671,10 +675,12 @@ Module modCommonUtilities
                                 MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                     ' Close the form/application
-                    frmMe.Close()
+                    ' frmMe.Close()
                 Else
                     Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
                 End If
+
+                Exit Try
 
             End If
 
@@ -775,10 +781,12 @@ Module modCommonUtilities
                                 MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                     ' Close the form/application
-                    frmMe.Close()
+                    ' frmMe.Close()
                 Else
                     Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
                 End If
+
+                Exit Try
 
             End If
 

@@ -117,7 +117,9 @@ Public Class frmMain
                             MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                 ' Close the form/application
-                Me.Close()
+                ' Me.Close()
+
+                Exit Sub
 
             End If
 
