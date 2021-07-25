@@ -106,7 +106,7 @@ Public Class frmMain
         intElapsedTimeUpdateConfig += 1
 
         ' Has 5 minutes elapsed?
-        If (intElapsedTimeUpdateConfig >= 60 * 5 * 2) Then
+        If (intElapsedTimeUpdateConfig >= 30) Then ' 60 * 5 * 2
             ' Get db update
             If OpenDatabaseConnectionSQLServer() = False Then
 
