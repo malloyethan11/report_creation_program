@@ -66,4 +66,30 @@
         Me.Close()
 
     End Sub
+
+    Private Sub tmrUpdateButtonImage_Tick(sender As Object, e As EventArgs) Handles tmrUpdateButtonImage.Tick
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                ButtonColor(MousePosition, Control, Me, btmButtonShortGray, btmButtonShort)
+            End If
+        Next
+
+    End Sub
+
+    Private Sub frmTaxReportInfo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Me.CenterToScreen()
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                Control.FlatStyle = FlatStyle.Flat
+                Control.ForeColor = BackColor
+                Control.FlatAppearance.BorderColor = BackColor
+                Control.FlatAppearance.MouseOverBackColor = BackColor
+                Control.FlatAppearance.MouseDownBackColor = BackColor
+            End If
+        Next
+
+    End Sub
 End Class

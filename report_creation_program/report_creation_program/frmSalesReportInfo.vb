@@ -15,7 +15,7 @@ Public Class frmSalesReportInfo
         Dim strTimePeriod As String
 
         ' get time period in which to run sales report
-        If cboTimePeriod.SelectedItem Is Nothing Then
+        If cboTimePeriod.SelectedItem = "" Then
             cboTimePeriod.BackColor = Color.Yellow
             MessageBox.Show("Please select the time period for which you want to view sales data")
 
@@ -53,4 +53,29 @@ Public Class frmSalesReportInfo
 
     End Sub
 
+    Private Sub frmSalesReportInfo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Me.CenterToScreen()
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                Control.FlatStyle = FlatStyle.Flat
+                Control.ForeColor = BackColor
+                Control.FlatAppearance.BorderColor = BackColor
+                Control.FlatAppearance.MouseOverBackColor = BackColor
+                Control.FlatAppearance.MouseDownBackColor = BackColor
+            End If
+        Next
+
+    End Sub
+
+    Private Sub tmrUpdateButtonImage_Tick(sender As Object, e As EventArgs) Handles tmrUpdateButtonImage.Tick
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                ButtonColor(MousePosition, Control, Me, btmButtonShortGray, btmButtonShort)
+            End If
+        Next
+
+    End Sub
 End Class
