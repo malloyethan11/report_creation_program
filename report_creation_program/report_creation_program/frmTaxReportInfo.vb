@@ -34,7 +34,7 @@
                     If ValidateDay() = True Then
 
                         strDay = txtDay.Text
-                        RunTaxReport(Me, False, strYear, strMonth, strDay)
+                        Dim blnResult As Boolean = RunTaxReport(Me, False, strYear, strMonth, strDay)
 
                         GC.Collect()
                         GC.WaitForPendingFinalizers()
@@ -45,8 +45,9 @@
 
                         Threading.Thread.Sleep(3000)
 
-                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", False)
-
+                        If blnResult = True Then
+                            SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", False)
+                        End If
                     End If
                 End If
             End If

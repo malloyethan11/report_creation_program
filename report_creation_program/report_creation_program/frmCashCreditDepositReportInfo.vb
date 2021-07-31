@@ -35,7 +35,7 @@
                     If ValidateDay() = True Then
 
                         strDay = txtDay.Text
-                        RunCashCreditReport(Me, False, strYear, strMonth, strDay)
+                        Dim blnResult As Boolean = RunCashCreditReport(Me, False, strYear, strMonth, strDay)
 
                         GC.Collect()
                         GC.WaitForPendingFinalizers()
@@ -46,8 +46,9 @@
 
                         Threading.Thread.Sleep(3000)
 
-                        SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Cash/Credit Deposit Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", False)
-
+                        If blnResult = True Then
+                            SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Cash/Credit Deposit Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", False)
+                        End If
                         'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\CashCreditDepositReport.xlsx"
 
 

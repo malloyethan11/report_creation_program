@@ -32,13 +32,15 @@ Public Class frmSalesReportInfo
                 strEmailToAddress = txtEmail.Text
 
                 ' create sales report
-                CreateSalesReport(Me, strTimePeriod, False)
+                Dim blnResult As Boolean = CreateSalesReport(Me, strTimePeriod, False)
 
                 GC.Collect()
                 GC.WaitForPendingFinalizers()
 
                 ' email sales report
-                SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
+                If blnResult = True Then
+                    SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
+                End If
 
             End If
 

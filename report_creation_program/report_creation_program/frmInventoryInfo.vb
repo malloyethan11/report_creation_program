@@ -39,7 +39,7 @@
             strToEmail = txtEmail.Text
 
             ' run inventory report
-            RunInventoryReport(Me, False)
+            Dim blnResult As Boolean = RunInventoryReport(Me, False)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
@@ -51,8 +51,9 @@
 
             Threading.Thread.Sleep(3000)
 
-            SendMail(txtEmail.Text, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", False)
-
+            If blnResult = True Then
+                SendMail(txtEmail.Text, "TeamBeesCapstone@gmail.com", "Inventory Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", False)
+            End If
         End If
     End Sub
 

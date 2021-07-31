@@ -1,5 +1,25 @@
 ﻿Module modGlobalConstantsAndVariables
 
+    Public SalesDailyFlag As Boolean = False
+    Public SalesWeeklyFlag As Boolean = False
+    Public SalesMonthlyFlag As Boolean = False
+    Public SalesYearlyFlag As Boolean = False
+
+    Public InventoryDailyFlag As Boolean = False
+    Public InventoryWeeklyFlag As Boolean = False
+    Public InventoryMonthlyFlag As Boolean = False
+    Public InventoryYearlyFlag As Boolean = False
+
+    Public TaxDailyFlag As Boolean = False
+    Public TaxWeeklyFlag As Boolean = False
+    Public TaxMonthlyFlag As Boolean = False
+    Public TaxYearlyFlag As Boolean = False
+
+    Public DepositDailyFlag As Boolean = False
+    Public DepositWeeklyFlag As Boolean = False
+    Public DepositMonthlyFlag As Boolean = False
+    Public DepositYearlyFlag As Boolean = False
+
     Public strConnectionUsername As String
     Public strConnectionPassword As String
     Public btmButtonDefault As Bitmap = My.Resources.Button

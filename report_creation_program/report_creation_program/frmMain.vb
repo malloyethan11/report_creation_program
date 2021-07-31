@@ -4,26 +4,6 @@ Public Class frmMain
     Dim intElapsedTimeUpdateConfig As Integer = 1000000
     Dim intElapsedTimeRunReport As Integer = 0
 
-    Dim SalesDailyFlag As Boolean = False
-    Dim SalesWeeklyFlag As Boolean = False
-    Dim SalesMonthlyFlag As Boolean = False
-    Dim SalesYearlyFlag As Boolean = False
-
-    Dim InventoryDailyFlag As Boolean = False
-    Dim InventoryWeeklyFlag As Boolean = False
-    Dim InventoryMonthlyFlag As Boolean = False
-    Dim InventoryYearlyFlag As Boolean = False
-
-    Dim TaxDailyFlag As Boolean = False
-    Dim TaxWeeklyFlag As Boolean = False
-    Dim TaxMonthlyFlag As Boolean = False
-    Dim TaxYearlyFlag As Boolean = False
-
-    Dim DepositDailyFlag As Boolean = False
-    Dim DepositWeeklyFlag As Boolean = False
-    Dim DepositMonthlyFlag As Boolean = False
-    Dim DepositYearlyFlag As Boolean = False
-
     Private Sub btnSalesReport_Click(sender As Object, e As EventArgs) Handles btnSalesReport.Click
 
         ' declare variables
@@ -112,9 +92,10 @@ Public Class frmMain
 
             ' Elapse time
             intElapsedTimeUpdateConfig += 1
+            ' Label1.Text = intElapsedTimeUpdateConfig
 
-            ' Has 5 minutes elapsed?
-            If (intElapsedTimeUpdateConfig >= 30) Then ' 60 * 5 * 2
+            ' Has X minutes elapsed?
+            If (intElapsedTimeUpdateConfig >= 45) Then ' 60 * 5 * 2
                 ' Get db update
                 If OpenDatabaseConnectionSQLServer(True) = False Then
 
@@ -127,6 +108,8 @@ Public Class frmMain
                     ' Close the form/application
                     ' Me.Close()
 
+                    ' Reset
+                    intElapsedTimeUpdateConfig = 0
                     Exit Sub
 
                 End If
@@ -329,18 +312,20 @@ Public Class frmMain
         If (SalesDailyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            CreateSalesReport(Me, "last day", True)
+            Dim blnResult As Boolean = CreateSalesReport(Me, "last day", True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email sales report
-            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Daily Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email sales report
+                SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Daily Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            End If
 
             ' Turn off
             SalesDailyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -387,18 +372,20 @@ Public Class frmMain
         If (SalesWeeklyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            CreateSalesReport(Me, "last week", True)
+            Dim blnResult As Boolean = CreateSalesReport(Me, "last week", True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email sales report
-            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Weekly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email sales report
+                SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Weekly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            End If
 
             ' Turn off
             SalesWeeklyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -453,18 +440,20 @@ Public Class frmMain
         If (SalesMonthlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            CreateSalesReport(Me, "last month (30 days)", True)
+            Dim blnResult As Boolean = CreateSalesReport(Me, "last month (30 days)", True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email sales report
-            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Monthly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email sales report
+                SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Monthly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            End If
 
             ' Turn off
             SalesMonthlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -519,18 +508,20 @@ Public Class frmMain
         If (SalesYearlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            CreateSalesReport(Me, "last year (365 days)", True)
+            Dim blnResult As Boolean = CreateSalesReport(Me, "last year (365 days)", True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email sales report
-            SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Yearly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email sales report
+                SendMail(strEmailSalesReport, "TeamBeesCapstone@gmail.com", "Yearly Sales Report", "Automated message: See attached sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", True)
+            End If
 
             ' Turn off
             SalesYearlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -580,18 +571,20 @@ Public Class frmMain
         If (InventoryDailyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunInventoryReport(Me, True)
+            Dim blnResult As Boolean = RunInventoryReport(Me, True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Inventory report
-            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Daily Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Inventory report
+                SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Daily Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            End If
 
             ' Turn off
             InventoryDailyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -637,18 +630,20 @@ Public Class frmMain
         If (InventoryWeeklyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunInventoryReport(Me, True)
+            Dim blnResult As Boolean = RunInventoryReport(Me, True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Inventory report
-            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Weekly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Inventory report
+                SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Weekly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            End If
 
             ' Turn off
             InventoryWeeklyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -702,18 +697,20 @@ Public Class frmMain
         If (InventoryMonthlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunInventoryReport(Me, True)
+            Dim blnResult As Boolean = RunInventoryReport(Me, True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Inventory report
-            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Monthly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Inventory report
+                SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Monthly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            End If
 
             ' Turn off
             InventoryMonthlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -767,18 +764,20 @@ Public Class frmMain
         If (InventoryYearlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunInventoryReport(Me, True)
+            Dim blnResult As Boolean = RunInventoryReport(Me, True)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Inventory report
-            SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Yearly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Inventory report
+                SendMail(strEmailInventoryReport, "TeamBeesCapstone@gmail.com", "Yearly Inventory Report", "Automated message: See attached Inventory report.", "TeamBeesCapstone@gmail.com", "cincystate123", "InventoryReport.xlsx", True)
+            End If
 
             ' Turn off
             InventoryYearlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -827,17 +826,19 @@ Public Class frmMain
         If (TaxDailyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Tax report
-            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Daily Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Tax report
+                SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Daily Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            End If
 
             TaxDailyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -882,17 +883,19 @@ Public Class frmMain
         If (TaxWeeklyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Tax report
-            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Weekly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Tax report
+                SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Weekly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            End If
 
             TaxWeeklyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -945,17 +948,19 @@ Public Class frmMain
         If (TaxMonthlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Tax report
-            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Monthly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Tax report
+                SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Monthly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            End If
 
             TaxMonthlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -1008,17 +1013,19 @@ Public Class frmMain
         If (TaxYearlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunTaxReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Tax report
-            SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Yearly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Tax report
+                SendMail(strEmailSalesTaxReport, "TeamBeesCapstone@gmail.com", "Yearly Tax Report", "Automated message: See attached Tax report.", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", True)
+            End If
 
             TaxYearlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -1067,17 +1074,19 @@ Public Class frmMain
         If (DepositDailyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Deposit report
-            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Daily Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Deposit report
+                SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Daily Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            End If
 
             DepositDailyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -1122,17 +1131,19 @@ Public Class frmMain
         If (DepositWeeklyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Deposit report
-            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Weekly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Deposit report
+                SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Weekly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            End If
 
             DepositWeeklyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -1185,17 +1196,19 @@ Public Class frmMain
         If (DepositMonthlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Deposit report
-            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Monthly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Deposit report
+                SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Monthly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            End If
 
             DepositMonthlyFlag = False
 
-        End If
+            End If
 
     End Sub
 
@@ -1248,17 +1261,19 @@ Public Class frmMain
         If (DepositYearlyFlag = True) Then
 
             ' Okay, we're in. Run the report in quiet mode
-            RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
+            Dim blnResult As Boolean = RunCashCreditReport(Me, True, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Year)
 
             GC.Collect()
             GC.WaitForPendingFinalizers()
 
-            ' email Deposit report
-            SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Yearly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            If (blnResult = True) Then
+                ' email Deposit report
+                SendMail(strEmailDespositReport, "TeamBeesCapstone@gmail.com", "Yearly Deposit Report", "Automated message: See attached Deposit report.", "TeamBeesCapstone@gmail.com", "cincystate123", "CashCreditDepositReport.xlsx", True)
+            End If
 
             DepositYearlyFlag = False
 
-        End If
+            End If
 
     End Sub
 

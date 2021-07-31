@@ -79,7 +79,7 @@ Module modCommonUtilities
 
     End Function
 
-    Public Sub CreateSalesReport(ByRef frmMe As Form, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean)
+    Public Function CreateSalesReport(ByRef frmMe As Form, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean) As Boolean
 
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
@@ -88,6 +88,7 @@ Module modCommonUtilities
         Dim ExcelWkBk As Excel.Workbook
         Dim ExcelWkSht As Excel.Worksheet
         Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
@@ -142,6 +143,7 @@ Module modCommonUtilities
 
         Catch excError As Exception
 
+            blnSuccess = False
             If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -161,88 +163,92 @@ Module modCommonUtilities
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
 
-    End Sub
+        Return blnSuccess
+
+    End Function
 
     Public Function GetSales(ByRef frmMe As Form, ByVal intCategory As Integer, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean)
 
         Dim dblTotalSales As Double
 
-        Try
+        'Try
 
-            Dim strSelect As String
-            Dim cmdSelect As OleDb.OleDbCommand
-            Dim dt As DataTable = New DataTable
+        Dim strSelect As String
+        Dim cmdSelect As OleDb.OleDbCommand
+        Dim dt As DataTable = New DataTable
 
-            ' Open the DB
-            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
+        ' Open the DB
+        OpenDatabaseConnectionSQLServer(blnQuiet)
+        'If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
-                '' The database is not open
-                'If blnQuiet = False Then
-                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                '                "The form will now close.",
-                '                frmMe.Text + " Error",
-                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                '    ' Close the form/application
-                '    ' frmMe.Close()
-                'Else
-                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                'End If
+        '    '' The database is not open
+        '    'If blnQuiet = False Then
+        '    '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+        '    '                "The form will now close.",
+        '    '                frmMe.Text + " Error",
+        '    '                MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '    '    ' Close the form/application
+        '    '    ' frmMe.Close()
+        '    'Else
+        '    '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+        '    'End If
 
-                Exit Try
+        '    Exit Function
 
-            End If
+        'End If
 
-            ' Build the select statement based on user-selected time period
-            If strTimePeriod = "last day" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " AND strPurchaseDate > (DATEADD(DAY, -1, GETDATE()))"
+        ' Build the select statement based on user-selected time period
+        If strTimePeriod = "last day" Then
+            strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " AND strPurchaseDate > (DATEADD(DAY, -1, GETDATE()))"
 
-            ElseIf strTimePeriod = "last week" Then
-                strSelect = "Select SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -7, GETDATE()))"
+        ElseIf strTimePeriod = "last week" Then
+            strSelect = "Select SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -7, GETDATE()))"
 
-            ElseIf strTimePeriod = "last month (30 days)" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -30, GETDATE()))"
+        ElseIf strTimePeriod = "last month (30 days)" Then
+            strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -30, GETDATE()))"
 
-            ElseIf strTimePeriod = "last year (365 days)" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -365, GETDATE()))"
+        ElseIf strTimePeriod = "last year (365 days)" Then
+            strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -365, GETDATE()))"
 
-            End If
+        End If
 
-            ' Retrieve all the records 
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-            Dim objTotalSales As Object = cmdSelect.ExecuteScalar
+        ' Retrieve all the records 
+        cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+        Dim objTotalSales As Object = cmdSelect.ExecuteScalar
 
-            ' check for null entries (zeroes), set to zero
-            If IsDBNull(objTotalSales) Then
-                dblTotalSales = 0
-            Else
-                dblTotalSales = CDbl(objTotalSales)
-            End If
+        ' check for null entries (zeroes), set to zero
+        If IsDBNull(objTotalSales) Then
+            dblTotalSales = 0
+        Else
+            dblTotalSales = CDbl(objTotalSales)
+        End If
 
-            ' close the database connection
-            CloseDatabaseConnection()
+        ' close the database connection
+        CloseDatabaseConnection()
 
-        Catch excError As Exception
+        'Catch excError As Exception
 
-            If blnQuiet = False Then
-                ' Log and display error message
-                MessageBox.Show(excError.Message)
-            Else
-                ' Log message in console
-                Console.WriteLine(excError.Message)
-            End If
+        '    If blnQuiet = False Then
+        '        ' Log and display error message
+        '        MessageBox.Show(excError.Message)
+        '    Else
+        '        ' Log message in console
+        '        Console.WriteLine(excError.Message)
+        '    End If
 
-        End Try
+        'End Try
 
         Return dblTotalSales
 
     End Function
 
-    Public Sub RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+    Public Function RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String) As Boolean
 
         Dim ExcelApp As Excel.Application
         Dim ExcelWkBk As Excel.Workbook
         Dim ExcelWkSht As Excel.Worksheet
         Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
@@ -605,6 +611,8 @@ Module modCommonUtilities
 
         Catch excError As Exception
 
+            blnSuccess = False
+
             If blnQuiet = False Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -624,9 +632,11 @@ Module modCommonUtilities
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
 
-    End Sub
+        Return blnSuccess
 
-    Public Sub RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean)
+    End Function
+
+    Public Function RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean) As Boolean
 
         ' add table data
 
@@ -639,6 +649,7 @@ Module modCommonUtilities
         Dim intNumRecords As Integer
         Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
         Dim intRecordIndex As Integer = 0
+        Dim blnSuccess As Boolean = True
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
@@ -729,6 +740,9 @@ Module modCommonUtilities
             ExcelWkSht.SaveAs(strFile)
 
         Catch excError As Exception
+
+            blnSuccess = False
+
             If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -747,14 +761,17 @@ Module modCommonUtilities
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
 
-    End Sub
+        Return blnSuccess
 
-    Public Sub RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+    End Function
+
+    Public Function RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String) As Boolean
 
         Dim ExcelApp As Excel.Application
         Dim ExcelWkBk As Excel.Workbook
         Dim ExcelWkSht As Excel.Worksheet
         Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
 
         ' start excel and get application object
         ExcelApp = CreateObject("Excel.Application")
@@ -840,6 +857,9 @@ Module modCommonUtilities
             ExcelWkSht.SaveAs(strFile)
 
         Catch excError As Exception
+
+            blnSuccess = False
+
             If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -858,7 +878,9 @@ Module modCommonUtilities
         ExcelWkSht = Nothing
         ExcelWkBk = Nothing
 
-    End Sub
+        Return blnSuccess
+
+    End Function
 
     Public Sub ReadCSVFile()
 

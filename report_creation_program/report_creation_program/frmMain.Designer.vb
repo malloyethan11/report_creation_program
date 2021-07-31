@@ -113,7 +113,7 @@ Partial Class frmMain
         'tmrUpdateLocalConfig
         '
         Me.tmrUpdateLocalConfig.Enabled = True
-        Me.tmrUpdateLocalConfig.Interval = 500
+        Me.tmrUpdateLocalConfig.Interval = 1000
         '
         'tmrCheckIfReportRun
         '
