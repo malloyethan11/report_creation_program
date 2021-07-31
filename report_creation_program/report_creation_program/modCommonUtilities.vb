@@ -174,7 +174,7 @@ Module modCommonUtilities
             Dim dt As DataTable = New DataTable
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer(True) = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
                 '' The database is not open
                 'If blnQuiet = False Then
@@ -287,7 +287,7 @@ Module modCommonUtilities
             Dim dblTaxableSubtotal As Double
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer(True) = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
                 '' The database is not open
                 'If blnQuiet = False Then
@@ -670,7 +670,7 @@ Module modCommonUtilities
             Dim dt As DataTable = New DataTable
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer(True) = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
                 'If (blnQuiet = False) Then
                 '    ' The database is not open
@@ -776,7 +776,7 @@ Module modCommonUtilities
         Try
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer(True) = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
                 'If (blnQuiet = False) Then
                 '    ' The database is not open
