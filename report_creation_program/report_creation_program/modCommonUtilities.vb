@@ -142,8 +142,13 @@ Module modCommonUtilities
 
         Catch excError As Exception
 
-            ' Log and display error message
-            MessageBox.Show(excError.Message)
+            If (blnQuiet = False) Then
+                ' Log and display error message
+                MessageBox.Show(excError.Message)
+            Else
+                ' Log and display error message
+                Console.WriteLine(excError.Message)
+            End If
 
         End Try
 
@@ -169,19 +174,19 @@ Module modCommonUtilities
             Dim dt As DataTable = New DataTable
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(True) = False Then
 
-                ' The database is not open
-                If blnQuiet = False Then
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    ' Close the form/application
-                    ' frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '' The database is not open
+                'If blnQuiet = False Then
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
 
                 Exit Try
 
@@ -282,19 +287,19 @@ Module modCommonUtilities
             Dim dblTaxableSubtotal As Double
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(True) = False Then
 
-                ' The database is not open
-                If blnQuiet = False Then
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    ' Close the form/application
-                    ' frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '' The database is not open
+                'If blnQuiet = False Then
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
 
                 Exit Try
 
@@ -665,20 +670,20 @@ Module modCommonUtilities
             Dim dt As DataTable = New DataTable
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(True) = False Then
 
-                If (blnQuiet = False) Then
-                    ' The database is not open
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'If (blnQuiet = False) Then
+                '    ' The database is not open
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-                    ' Close the form/application
-                    ' frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
 
                 Exit Try
 
@@ -771,20 +776,20 @@ Module modCommonUtilities
         Try
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(True) = False Then
 
-                If (blnQuiet = False) Then
-                    ' The database is not open
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'If (blnQuiet = False) Then
+                '    ' The database is not open
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-                    ' Close the form/application
-                    ' frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
 
                 Exit Try
 

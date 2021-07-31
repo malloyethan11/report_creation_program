@@ -116,13 +116,13 @@ Public Class frmMain
             ' Has 5 minutes elapsed?
             If (intElapsedTimeUpdateConfig >= 30) Then ' 60 * 5 * 2
                 ' Get db update
-                If OpenDatabaseConnectionSQLServer() = False Then
+                If OpenDatabaseConnectionSQLServer(True) = False Then
 
-                    ' The database is not open
-                    MessageBox.Show(Me, "Database connection error." & vbNewLine &
-                            "The form will now close.",
-                            Me.Text + " Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    '' The database is not open
+                    'MessageBox.Show(Me, "Database connection error." & vbNewLine &
+                    '        "The form will now close.",
+                    '        Me.Text + " Error",
+                    '        MessageBoxButtons.OK, MessageBoxIcon.Error)
 
                     ' Close the form/application
                     ' Me.Close()
