@@ -20,25 +20,20 @@
         Else
             strToEmail = txtEmail.Text
 
-            If txtYear.Text = "" Then
+            If txtYear.Text = "" Or txtYear.Text.Length <> 4 Or IsNumeric(txtYear.Text) = False Then
                 txtYear.BackColor = Color.Yellow
-                MessageBox.Show("Please enter a year.")
+                MessageBox.Show("Please enter a numeric year in the format YYYY.")
 
             Else
+
                 strYear = txtYear.Text
 
-                If txtMonth.Text = "" Then
-                    txtMonth.BackColor = Color.Yellow
-                    MessageBox.Show("Please enter a month.")
+                If ValidateMonth() = True Then
 
-                Else
                     strMonth = txtMonth.Text
 
-                    If txtDay.Text = "" Then
-                        txtDay.BackColor = Color.Yellow
-                        MessageBox.Show("Please enter a day.")
+                    If ValidateDay() = True Then
 
-                    Else
                         strDay = txtDay.Text
                         RunCashCreditReport(Me, False, strYear, strMonth, strDay)
 
@@ -62,6 +57,51 @@
         End If
 
     End Sub
+
+    Private Function ValidateMonth() As Boolean
+
+        Dim blnValidate As Boolean = True
+
+        txtMonth.BackColor = Color.White
+
+        If txtMonth.Text = "" Or txtMonth.Text.Length <> 2 Or IsNumeric(txtMonth.Text) = False Then
+            txtMonth.BackColor = Color.Yellow
+            MessageBox.Show("Please enter a valid numeric month in the format MM.")
+            blnValidate = False
+        ElseIf IsNumeric(txtMonth.Text) = True Then
+            If CInt(txtMonth.Text) < 1 Or CInt(txtMonth.Text) > 12 Then
+                txtMonth.BackColor = Color.Yellow
+                MessageBox.Show("Please enter a valid numeric month in the format MM.")
+                blnValidate = False
+            End If
+        End If
+
+        Return blnValidate
+
+    End Function
+
+    Private Function ValidateDay() As Boolean
+
+        Dim blnValidate As Boolean = True
+        Dim IntDaysInMonth As Integer = DateTime.DaysInMonth(CInt(txtYear.Text), CInt(txtMonth.Text))
+
+        txtDay.BackColor = Color.White
+
+        If txtDay.Text = "" Or txtDay.Text.Length <> 2 Or IsNumeric(txtDay.Text) = False Then
+            txtDay.BackColor = Color.Yellow
+            MessageBox.Show("Please enter a valid numeric day in the format DD.")
+            blnValidate = False
+        ElseIf IsNumeric(txtDay.Text) = True Then
+            If CInt(txtDay.Text) > IntDaysInMonth Or CInt(txtDay.Text) < 1 Then
+                txtDay.BackColor = Color.Yellow
+                MessageBox.Show("Please enter a valid numeric day in the format DD.")
+                blnValidate = False
+            End If
+        End If
+
+        Return blnValidate
+
+    End Function
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
 
