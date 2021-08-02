@@ -15,7 +15,7 @@ Public Class frmSalesReportInfo
         Dim strTimePeriod As String
 
         ' get time period in which to run sales report
-        If cboTimePeriod.SelectedItem Is Nothing Then
+        If cboTimePeriod.SelectedItem = "" Then
             cboTimePeriod.BackColor = Color.Yellow
             MessageBox.Show("Please select the time period for which you want to view sales data")
 
@@ -32,13 +32,18 @@ Public Class frmSalesReportInfo
                 strEmailToAddress = txtEmail.Text
 
                 ' create sales report
-                CreateSalesReport(Me, strTimePeriod, False)
+                Dim blnResult As Boolean = CreateSalesReport(Me, strTimePeriod, False)
+
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
 
                 ' wait for report to finish saving
                 System.Threading.Thread.Sleep(3000)
 
                 ' email sales report
-                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
+                If blnResult = True Then
+                    SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
+                End If
 
             End If
 
@@ -53,4 +58,29 @@ Public Class frmSalesReportInfo
 
     End Sub
 
+    Private Sub frmSalesReportInfo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Me.CenterToScreen()
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                Control.FlatStyle = FlatStyle.Flat
+                Control.ForeColor = BackColor
+                Control.FlatAppearance.BorderColor = BackColor
+                Control.FlatAppearance.MouseOverBackColor = BackColor
+                Control.FlatAppearance.MouseDownBackColor = BackColor
+            End If
+        Next
+
+    End Sub
+
+    Private Sub tmrUpdateButtonImage_Tick(sender As Object, e As EventArgs) Handles tmrUpdateButtonImage.Tick
+
+        For Each Control In Controls
+            If Control.GetType() = GetType(Button) Then
+                ButtonColor(MousePosition, Control, Me, btmButtonShortGray, btmButtonShort)
+            End If
+        Next
+
+    End Sub
 End Class
