@@ -205,7 +205,7 @@ Module modCommonUtilities
 
         ElseIf strTimePeriod = "last year (365 days)" Then
             strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -365, GETDATE()))"
-        
+
         End If
 
         ' Retrieve all the records 
