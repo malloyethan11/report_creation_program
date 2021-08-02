@@ -185,16 +185,16 @@ Module modCommonUtilities
 
             ' Build the select statement based on user-selected time period
             If strTimePeriod = "last day" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " AND strPurchaseDate > (DATEADD(DAY, -1, GETDATE()))"
+                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " AND dtTransactionDate > (DATEADD(DAY, -1, GETDATE()))"
 
             ElseIf strTimePeriod = "last week" Then
-                strSelect = "Select SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -7, GETDATE()))"
+                strSelect = "Select SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -7, GETDATE()))"
 
             ElseIf strTimePeriod = "last month (30 days)" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -30, GETDATE()))"
+                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -30, GETDATE()))"
 
             ElseIf strTimePeriod = "last year (365 days)" Then
-                strSelect = "SELECT SUM(decItemPrice) from ItemsSoldByCategoryWithPriceAndDate where intCategoryID = " & intCategory & " and strpurchasedate > (DATEADD(DAY, -365, GETDATE()))"
+                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -365, GETDATE()))"
 
             End If
 

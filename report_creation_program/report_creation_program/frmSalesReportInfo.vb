@@ -34,6 +34,9 @@ Public Class frmSalesReportInfo
                 ' create sales report
                 CreateSalesReport(Me, strTimePeriod, False)
 
+                ' wait for report to finish saving
+                System.Threading.Thread.Sleep(3000)
+
                 ' email sales report
                 SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
 
