@@ -37,6 +37,9 @@ Public Class frmSalesReportInfo
                 GC.Collect()
                 GC.WaitForPendingFinalizers()
 
+                ' wait for report to finish saving
+                System.Threading.Thread.Sleep(3000)
+
                 ' email sales report
                 If blnResult = True Then
                     SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
