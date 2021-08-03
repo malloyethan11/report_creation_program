@@ -310,7 +310,7 @@ Module modCommonUtilities
             ' BUILD THE SELECT STATEMENTS
 
             ' GET GROSS SALES QUANTITY 
-            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -325,7 +325,7 @@ Module modCommonUtilities
 
 
             ' GET GROSS SALES TOTAL 
-            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -367,7 +367,7 @@ Module modCommonUtilities
 
 
             ' GET NET SALES QUANTITY
-            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -381,7 +381,7 @@ Module modCommonUtilities
 
 
             ' GET NET SALES TOTAL
-            strSelect = "SELECT SUM(decTotalPrice) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT SUM(decTotalPrice) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -395,7 +395,7 @@ Module modCommonUtilities
 
 
             ' GET TOTAL TAXES
-            strSelect = "SELECT SUM(decSalesTax) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT SUM(decSalesTax) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -409,7 +409,7 @@ Module modCommonUtilities
 
 
             ' GET TICKET TOTAL QUANTITY
-            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT COUNT(intTransactionID) FROM TTransactions WHERE intTransactionTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)

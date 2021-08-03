@@ -44,9 +44,13 @@ Public Class frmSalesReportInfo
                 System.Threading.Thread.Sleep(3000)
 
                 ' email sales report
+<<<<<<< HEAD
+                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "Sales Report", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
+=======
                 If blnResult = True Then
                     SendMail(strEmailToAddress, "TeamBeesCapstone@gmail.com", "Sales Report", "Attached is your requested sales report.", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx", False)
                 End If
+>>>>>>> main
 
             End If
 
