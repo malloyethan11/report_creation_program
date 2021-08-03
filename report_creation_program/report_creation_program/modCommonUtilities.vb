@@ -810,7 +810,7 @@ Module modCommonUtilities
 
             ' build the select statements
             ' get cash deposits
-            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intPaymentTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intTransactionTypeID = 1 AND intPaymentTypeID = 1 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
@@ -824,7 +824,7 @@ Module modCommonUtilities
 
 
             ' get credit deposits
-            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intPaymentTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
+            strSelect = "SELECT SUM(decTotalPrice + decSalesTax) from TTransactions WHERE intTransactionTypeID = 1 AND intPaymentTypeID = 2 AND (DATEPART(yyyy, dtTransactionDate) = ? AND DATEPART(MM, dtTransactionDate) = ? AND DATEPART(DD, dtTransactionDate) = ?)"
             cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
             cmdSelect.Parameters.AddWithValue("dtTransactionYear", strYear)
             cmdSelect.Parameters.AddWithValue("dtTransactionMonth", strMonth)
