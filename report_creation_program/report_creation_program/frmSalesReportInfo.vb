@@ -5,7 +5,6 @@ Public Class frmSalesReportInfo
 
         ' declare variables
         Dim strEmailToAddress As String
-        Dim strFilePath As String
 
         ' reset control colors
         cboTimePeriod.BackColor = Color.White
@@ -23,13 +22,17 @@ Public Class frmSalesReportInfo
 
             strTimePeriod = cboTimePeriod.SelectedItem
 
-            If txtEmail.Text = "" Then
+            If txtEmail.Text = "" Or System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") = False Then
 
                 txtEmail.BackColor = Color.Yellow
-                MessageBox.Show("Please enter the email you want to send the report to.")
+                MessageBox.Show("Please enter a valid email address.")
 
             Else
                 strEmailToAddress = txtEmail.Text
+
+                ' reset control colors
+                cboTimePeriod.BackColor = Color.White
+                txtEmail.BackColor = Color.White
 
                 ' create sales report
                 Dim blnResult As Boolean = CreateSalesReport(Me, strTimePeriod, False)

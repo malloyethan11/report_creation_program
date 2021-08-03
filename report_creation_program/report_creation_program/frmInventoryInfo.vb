@@ -30,13 +30,15 @@
         Dim strToEmail As String
 
         ' validate input
-        If txtEmail.Text = "" Then
+        If txtEmail.Text = "" Or System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") = False Then
             txtEmail.BackColor = Color.Yellow
-            MessageBox.Show("Please enter an email address.")
+            MessageBox.Show("Please enter a valid email address.")
 
         Else
 
             strToEmail = txtEmail.Text
+
+            txtEmail.BackColor = Color.White
 
             ' run inventory report
             Dim blnResult As Boolean = RunInventoryReport(Me, False)
