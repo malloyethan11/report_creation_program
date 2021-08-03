@@ -38,7 +38,7 @@ Public Class frmSalesReportInfo
                 System.Threading.Thread.Sleep(3000)
 
                 ' email sales report
-                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "test", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
+                SendMail("malloyethan11@gmail.com", "TeamBeesCapstone@gmail.com", "Sales Report", "Sales Report", "TeamBeesCapstone@gmail.com", "cincystate123", "SalesReport.xlsx")
 
             End If
 
