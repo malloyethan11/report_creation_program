@@ -42,7 +42,7 @@
                 strConnectionPassword = strTempPassword
 
                 ' Test connection
-                If OpenDatabaseConnectionSQLServer() = False Then
+                If OpenDatabaseConnectionSQLServer(False) = False Then
 
                     CloseDatabaseConnection()
                     MessageBox.Show("Unable to connect to database at this time. Either enter new credentials or close the program and try again later.", "Error")
@@ -175,7 +175,7 @@
 
 
         ' Open the DB
-        If OpenDatabaseConnectionSQLServer() = False Then
+        If OpenDatabaseConnectionSQLServer(False) = False Then
 
             CloseDatabaseConnection()
             MessageBox.Show("Unable to connect to database. Please try again.", "Error")

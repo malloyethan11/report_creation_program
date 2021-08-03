@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <StartupObject>TestNET.My.MyApplication</StartupObject>
     <RootNamespace>TestNET</RootNamespace>
-    <AssemblyName>TestNET</AssemblyName>
+    <AssemblyName>ReportCreation</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>TestNET.xml</DocumentationFile>
+    <DocumentationFile>ReportCreation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>TestNET.xml</DocumentationFile>
+    <DocumentationFile>ReportCreation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -86,6 +86,12 @@
     <Compile Include="frmGetDatabaseCredentials.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmInventoryInfo.Designer.vb">
+      <DependentUpon>frmInventoryInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmInventoryInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmGetDatabaseCredentials.resx">
       <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInventoryInfo.resx">
+      <DependentUpon>frmInventoryInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>

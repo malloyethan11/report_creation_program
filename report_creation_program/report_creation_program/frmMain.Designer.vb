@@ -28,6 +28,7 @@ Partial Class frmMain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.btnCashCreditDepositReport = New System.Windows.Forms.Button()
         Me.btnInventoryReport = New System.Windows.Forms.Button()
         Me.btnTaxReport = New System.Windows.Forms.Button()
@@ -36,57 +37,74 @@ Partial Class frmMain
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tmrUpdateLocalConfig = New System.Windows.Forms.Timer(Me.components)
         Me.tmrCheckIfReportRun = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrUpdateButtonImage = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
         'btnCashCreditDepositReport
         '
-        Me.btnCashCreditDepositReport.Location = New System.Drawing.Point(12, 267)
+        Me.btnCashCreditDepositReport.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnCashCreditDepositReport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCashCreditDepositReport.Image = CType(resources.GetObject("btnCashCreditDepositReport.Image"), System.Drawing.Image)
+        Me.btnCashCreditDepositReport.Location = New System.Drawing.Point(19, 156)
         Me.btnCashCreditDepositReport.Name = "btnCashCreditDepositReport"
-        Me.btnCashCreditDepositReport.Size = New System.Drawing.Size(135, 75)
+        Me.btnCashCreditDepositReport.Size = New System.Drawing.Size(112, 41)
         Me.btnCashCreditDepositReport.TabIndex = 1
-        Me.btnCashCreditDepositReport.Text = "Cash/Credit Deposit Report"
+        Me.btnCashCreditDepositReport.Text = "Deposit Report"
         Me.btnCashCreditDepositReport.UseVisualStyleBackColor = True
         '
         'btnInventoryReport
         '
-        Me.btnInventoryReport.Location = New System.Drawing.Point(13, 186)
+        Me.btnInventoryReport.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnInventoryReport.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnInventoryReport.Image = CType(resources.GetObject("btnInventoryReport.Image"), System.Drawing.Image)
+        Me.btnInventoryReport.Location = New System.Drawing.Point(19, 109)
         Me.btnInventoryReport.Name = "btnInventoryReport"
-        Me.btnInventoryReport.Size = New System.Drawing.Size(135, 75)
+        Me.btnInventoryReport.Size = New System.Drawing.Size(112, 41)
         Me.btnInventoryReport.TabIndex = 2
         Me.btnInventoryReport.Text = "Inventory Report"
         Me.btnInventoryReport.UseVisualStyleBackColor = True
         '
         'btnTaxReport
         '
-        Me.btnTaxReport.Location = New System.Drawing.Point(13, 105)
+        Me.btnTaxReport.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnTaxReport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTaxReport.Image = CType(resources.GetObject("btnTaxReport.Image"), System.Drawing.Image)
+        Me.btnTaxReport.Location = New System.Drawing.Point(19, 62)
         Me.btnTaxReport.Name = "btnTaxReport"
-        Me.btnTaxReport.Size = New System.Drawing.Size(135, 75)
+        Me.btnTaxReport.Size = New System.Drawing.Size(112, 41)
         Me.btnTaxReport.TabIndex = 3
         Me.btnTaxReport.Text = "Tax Report"
         Me.btnTaxReport.UseVisualStyleBackColor = True
         '
         'btnSalesReport
         '
-        Me.btnSalesReport.Location = New System.Drawing.Point(13, 24)
+        Me.btnSalesReport.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnSalesReport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSalesReport.Image = Global.TestNET.My.Resources.Resources.ButtonShort
+        Me.btnSalesReport.Location = New System.Drawing.Point(19, 15)
         Me.btnSalesReport.Name = "btnSalesReport"
-        Me.btnSalesReport.Size = New System.Drawing.Size(135, 75)
+        Me.btnSalesReport.Size = New System.Drawing.Size(112, 41)
         Me.btnSalesReport.TabIndex = 4
         Me.btnSalesReport.Text = "Sales Report"
         Me.btnSalesReport.UseVisualStyleBackColor = True
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(12, 376)
+        Me.btnExit.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnExit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExit.Image = Global.TestNET.My.Resources.Resources.ButtonShort
+        Me.btnExit.Location = New System.Drawing.Point(19, 235)
         Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(135, 46)
+        Me.btnExit.Size = New System.Drawing.Size(112, 41)
         Me.btnExit.TabIndex = 5
         Me.btnExit.Text = "Exit"
         Me.btnExit.UseVisualStyleBackColor = True
         '
         'Label1
         '
+        Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 345)
+        Me.Label1.Location = New System.Drawing.Point(6, 204)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(139, 13)
         Me.Label1.TabIndex = 6
@@ -95,24 +113,31 @@ Partial Class frmMain
         'tmrUpdateLocalConfig
         '
         Me.tmrUpdateLocalConfig.Enabled = True
-        Me.tmrUpdateLocalConfig.Interval = 500
+        Me.tmrUpdateLocalConfig.Interval = 1000
         '
         'tmrCheckIfReportRun
         '
         Me.tmrCheckIfReportRun.Enabled = True
         Me.tmrCheckIfReportRun.Interval = 1000
         '
+        'tmrUpdateButtonImage
+        '
+        Me.tmrUpdateButtonImage.Enabled = True
+        Me.tmrUpdateButtonImage.Interval = 1
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(160, 434)
+        Me.BackColor = System.Drawing.Color.White
+        Me.ClientSize = New System.Drawing.Size(151, 290)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnSalesReport)
         Me.Controls.Add(Me.btnTaxReport)
         Me.Controls.Add(Me.btnInventoryReport)
         Me.Controls.Add(Me.btnCashCreditDepositReport)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
         Me.Text = "Home"
         Me.ResumeLayout(False)
@@ -126,4 +151,5 @@ Partial Class frmMain
 
     Friend WithEvents tmrUpdateLocalConfig As Timer
     Friend WithEvents tmrCheckIfReportRun As Timer
+    Friend WithEvents tmrUpdateButtonImage As Timer
 End Class

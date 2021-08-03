@@ -79,25 +79,26 @@ Module modCommonUtilities
 
     End Function
 
-    Public Sub CreateSalesReport(ByRef frmMe As Form, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean)
+    Public Function CreateSalesReport(ByRef frmMe As Form, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean) As Boolean
 
         ' instantiate excel objects and declare variables
         ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
 
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
+
         Try
-
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = False ' for testing only, set to false when go to prod
-
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
 
             ' add table headers going cell by cell
             ExcelWkSht.Cells(1, 1) = "Sales for the " & strTimePeriod
@@ -135,100 +136,123 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\SalesReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("SalesReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("SalesReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
-
         Catch excError As Exception
 
-            ' Log and display error message
-            MessageBox.Show(excError.Message)
-
-        End Try
-
-    End Sub
-
-    Public Function GetSales(ByRef frmMe As Form, ByVal intCategory As Integer, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean)
-
-        Dim dblTotalSales As Double
-
-        Try
-
-            Dim strSelect As String
-            Dim cmdSelect As OleDb.OleDbCommand
-            Dim dt As DataTable = New DataTable
-
-            ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
-
-                ' The database is not open
-                If blnQuiet = False Then
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    ' Close the form/application
-                    frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
-
-            End If
-
-            ' Build the select statement based on user-selected time period
-            If strTimePeriod = "last day" Then
-                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " AND dtTransactionDate > (DATEADD(DAY, -1, GETDATE()))"
-
-            ElseIf strTimePeriod = "last week" Then
-                strSelect = "Select SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -7, GETDATE()))"
-
-            ElseIf strTimePeriod = "last month (30 days)" Then
-                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -30, GETDATE()))"
-
-            ElseIf strTimePeriod = "last year (365 days)" Then
-                strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -365, GETDATE()))"
-
-            End If
-
-            ' Retrieve all the records 
-            cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
-            Dim objTotalSales As Object = cmdSelect.ExecuteScalar
-
-            ' check for null entries (zeroes), set to zero
-            If IsDBNull(objTotalSales) Then
-                dblTotalSales = 0
-            Else
-                dblTotalSales = CDbl(objTotalSales)
-            End If
-
-            ' close the database connection
-            CloseDatabaseConnection()
-
-        Catch excError As Exception
-
-            If blnQuiet = False Then
+            blnSuccess = False
+            If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
             Else
-                ' Log message in console
+                ' Log and display error message
                 Console.WriteLine(excError.Message)
             End If
 
         End Try
 
+        ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+
+        Return blnSuccess
+
+    End Function
+
+    Public Function GetSales(ByRef frmMe As Form, ByVal intCategory As Integer, ByVal strTimePeriod As String, ByVal blnQuiet As Boolean)
+
+        Dim dblTotalSales As Double
+
+        'Try
+
+        Dim strSelect As String
+        Dim cmdSelect As OleDb.OleDbCommand
+        Dim dt As DataTable = New DataTable
+
+        ' Open the DB
+        OpenDatabaseConnectionSQLServer(blnQuiet)
+        'If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
+
+        '    '' The database is not open
+        '    'If blnQuiet = False Then
+        '    '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+        '    '                "The form will now close.",
+        '    '                frmMe.Text + " Error",
+        '    '                MessageBoxButtons.OK, MessageBoxIcon.Error)
+        '    '    ' Close the form/application
+        '    '    ' frmMe.Close()
+        '    'Else
+        '    '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+        '    'End If
+
+        ' Build the select statement based on user-selected time period
+        If strTimePeriod = "last day" Then
+            strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " AND dtTransactionDate > (DATEADD(DAY, -1, GETDATE()))"
+
+        ElseIf strTimePeriod = "last week" Then
+            strSelect = "Select SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -7, GETDATE()))"
+
+        ElseIf strTimePeriod = "last month (30 days)" Then
+            strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -30, GETDATE()))"
+
+        ElseIf strTimePeriod = "last year (365 days)" Then
+            strSelect = "SELECT SUM(decCurrentItemPrice) from vItems_Sold_By_Category_With_Date_And_Price where intCategoryID = " & intCategory & " and dtTransactionDate > (DATEADD(DAY, -365, GETDATE()))"
+
+        End If
+
+        ' Retrieve all the records 
+        cmdSelect = New OleDb.OleDbCommand(strSelect, m_conAdministrator)
+        Dim objTotalSales As Object = cmdSelect.ExecuteScalar
+
+        ' check for null entries (zeroes), set to zero
+        If IsDBNull(objTotalSales) Then
+            dblTotalSales = 0
+        Else
+            dblTotalSales = CDbl(objTotalSales)
+        End If
+
+        ' close the database connection
+        CloseDatabaseConnection()
+
+        'Catch excError As Exception
+
+        '    If blnQuiet = False Then
+        '        ' Log and display error message
+        '        MessageBox.Show(excError.Message)
+        '    Else
+        '        ' Log message in console
+        '        Console.WriteLine(excError.Message)
+        '    End If
+
+        'End Try
+
         Return dblTotalSales
 
     End Function
 
-    Public Sub RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+    Public Function RunTaxReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String) As Boolean
+
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
 
         Try
 
@@ -237,10 +261,6 @@ Module modCommonUtilities
             Dim cmdSelect As OleDb.OleDbCommand
             'Dim drSourceTable As OleDb.OleDbDataReader
             Dim dt As DataTable = New DataTable
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
             Dim objResults As Object
             Dim dblOhioTaxRate As Double = 7.8
             Dim intGrossSalesQty As Integer
@@ -268,32 +288,24 @@ Module modCommonUtilities
             Dim dblPayoutAmount As Double
             Dim dblTaxableSubtotal As Double
 
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = True ' for testing only, set to false when go to prod
-
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
-
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
-                ' The database is not open
-                If blnQuiet = False Then
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    ' Close the form/application
-                    frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '' The database is not open
+                'If blnQuiet = False Then
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
+
+                Exit Try
 
             End If
-
-
 
             ' BUILD THE SELECT STATEMENTS
 
@@ -588,19 +600,14 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("TaxReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("TaxReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
-
         Catch excError As Exception
+
+            blnSuccess = False
 
             If blnQuiet = False Then
                 ' Log and display error message
@@ -612,30 +619,43 @@ Module modCommonUtilities
 
         End Try
 
-    End Sub
+        ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
 
-    Public Sub RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean)
+        Return blnSuccess
+
+    End Function
+
+    Public Function RunInventoryReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean) As Boolean
 
         ' add table data
+
+        ' instantiate excel objects and declare variables
+        ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim intNumRecords As Integer
+        Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
+        Dim intRecordIndex As Integer = 0
+        Dim blnSuccess As Boolean = True
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False ' for testing only, set to false when go to prod
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
+
         Try
-
-            ' instantiate excel objects and declare variables
-            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
-            Dim intNumRecords As Integer
-            Dim intIndex As Integer = 2 ' starts at 2 to account for header row, Excel rows are also 1-based
-            Dim intRecordIndex As Integer = 0
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = True ' for testing only, set to false when go to prod
-
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
 
             ' add table headers
             ExcelWkSht.Cells(1, 1) = "SKU"
@@ -657,20 +677,22 @@ Module modCommonUtilities
             Dim dt As DataTable = New DataTable
 
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
-                If (blnQuiet = False) Then
-                    ' The database is not open
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'If (blnQuiet = False) Then
+                '    ' The database is not open
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-                    ' Close the form/application
-                    frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
+
+                Exit Try
 
             End If
 
@@ -708,19 +730,15 @@ Module modCommonUtilities
             Dim strFile As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\InventoryReport.xlsx"
 
             ' Save
-            If (My.Computer.FileSystem.FileExists(strFile) = True) Then
-                My.Computer.FileSystem.DeleteFile(strFile)
+            If (My.Computer.FileSystem.FileExists("InventoryReport.xlsx") = True) Then
+                My.Computer.FileSystem.DeleteFile("InventoryReport.xlsx")
             End If
             ExcelWkSht.SaveAs(strFile)
 
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
-
         Catch excError As Exception
+
+            blnSuccess = False
+
             If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -730,48 +748,63 @@ Module modCommonUtilities
 
         End Try
 
-    End Sub
+        ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
 
-    Public Sub RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String)
+        Return blnSuccess
+
+    End Function
+
+    Public Function RunCashCreditReport(ByRef frmMe As Form, ByVal blnQuiet As Boolean, ByVal strYear As String, ByVal strMonth As String, ByVal strDay As String) As Boolean
+
+        Dim ExcelApp As Excel.Application
+        Dim ExcelWkBk As Excel.Workbook
+        Dim ExcelWkSht As Excel.Worksheet
+        Dim ExcelRange As Excel.Range
+        Dim blnSuccess As Boolean = True
+
+        ' start excel and get application object
+        ExcelApp = CreateObject("Excel.Application")
+        ExcelApp.Visible = False
+
+        ' instantiate excel objects and declare variables
+        ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
+        Dim objResults As Object
+        Dim dblCashDeposit As Double
+        Dim dblCreditDeposit As Double
+        Dim strSelect As String
+        Dim cmdSelect As OleDb.OleDbCommand
+
+        ' Add a new workbook
+        ExcelWkBk = ExcelApp.Workbooks.Add
+        ExcelWkSht = ExcelWkBk.ActiveSheet
 
         ' add table data
         Try
 
-            ' instantiate excel objects and declare variables
-            ' THE EXCEL CODE IS BASED ON THIS TUTORIAL: https://www.tutorialspoint.com/vb.net/vb.net_excel_sheet.htm
-            Dim ExcelApp As Excel.Application
-            Dim ExcelWkBk As Excel.Workbook
-            Dim ExcelWkSht As Excel.Worksheet
-            Dim ExcelRange As Excel.Range
-            Dim objResults As Object
-            Dim dblCashDeposit As Double
-            Dim dblCreditDeposit As Double
-            Dim strSelect As String
-            Dim cmdSelect As OleDb.OleDbCommand
-
-            ' start excel and get application object
-            ExcelApp = CreateObject("Excel.Application")
-            ExcelApp.Visible = False
-
-            ' Add a new workbook
-            ExcelWkBk = ExcelApp.Workbooks.Add
-            ExcelWkSht = ExcelWkBk.ActiveSheet
-
             ' Open the DB
-            If OpenDatabaseConnectionSQLServer() = False Then
+            If OpenDatabaseConnectionSQLServer(blnQuiet) = False Then
 
-                If (blnQuiet = False) Then
-                    ' The database is not open
-                    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
-                                "The form will now close.",
-                                frmMe.Text + " Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'If (blnQuiet = False) Then
+                '    ' The database is not open
+                '    MessageBox.Show(frmMe, "Database connection error." & vbNewLine &
+                '                "The form will now close.",
+                '                frmMe.Text + " Error",
+                '                MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-                    ' Close the form/application
-                    frmMe.Close()
-                Else
-                    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
-                End If
+                '    ' Close the form/application
+                '    ' frmMe.Close()
+                'Else
+                '    Console.WriteLine("Database connection error." & vbNewLine & "Report not generated.")
+                'End If
+
+                Exit Try
 
             End If
 
@@ -816,16 +849,13 @@ Module modCommonUtilities
             If (My.Computer.FileSystem.FileExists("CashCreditDepositReport.xlsx") = True) Then
                 My.Computer.FileSystem.DeleteFile("CashCreditDepositReport.xlsx")
             End If
+
             ExcelWkSht.SaveAs(strFile)
 
-            ' Release object references.
-            ExcelRange = Nothing
-            ExcelWkSht = Nothing
-            ExcelWkBk = Nothing
-            ExcelApp.Quit()
-            ExcelApp = Nothing
-
         Catch excError As Exception
+
+            blnSuccess = False
+
             If (blnQuiet = False) Then
                 ' Log and display error message
                 MessageBox.Show(excError.Message)
@@ -835,7 +865,18 @@ Module modCommonUtilities
 
         End Try
 
-    End Sub
+        ' Release object references.
+        ExcelWkBk.Saved = True
+        ExcelApp.Workbooks.Close()
+        ExcelApp.Quit()
+        ExcelApp = Nothing
+        ExcelRange = Nothing
+        ExcelWkSht = Nothing
+        ExcelWkBk = Nothing
+
+        Return blnSuccess
+
+    End Function
 
     Public Sub ReadCSVFile()
 
@@ -969,7 +1010,7 @@ Module modCommonUtilities
     End Sub
 
     ' Send Mail Function copied from: http://vb.net-informations.com/communications/vb.net_smtp_mail.htm
-    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String)
+    Public Function SendMail(strTO As String, strFrom As String, strSubject As String, strBody As String, strUsername As String, strPassword As String, strAttachmentPath As String, blnQuiet As Boolean)
         Try
             Dim SmtpServer As New SmtpClient()
             Dim mail As New MailMessage()
@@ -1000,10 +1041,18 @@ Module modCommonUtilities
             mail.Attachments.Add(attachment)
 
             SmtpServer.Send(mail)
-            MsgBox("mail send")
+
+            SmtpServer.Dispose()
+            mail.Dispose()
+
+            If (blnQuiet = False) Then
+                MsgBox("Message sent")
+            End If
             Return 0
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            If (blnQuiet = False) Then
+                MsgBox(ex.ToString)
+            End If
             Return ex.Message.Length
         End Try
     End Function
