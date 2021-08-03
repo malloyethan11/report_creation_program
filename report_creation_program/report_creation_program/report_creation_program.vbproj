@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <StartupObject>TestNET.My.MyApplication</StartupObject>
     <RootNamespace>TestNET</RootNamespace>
-    <AssemblyName>TestNET</AssemblyName>
+    <AssemblyName>ReportCreation</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>TestNET.xml</DocumentationFile>
+    <DocumentationFile>ReportCreation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>TestNET.xml</DocumentationFile>
+    <DocumentationFile>ReportCreation.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -74,10 +74,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsEncryption.vb" />
+    <Compile Include="frmCashCreditDepositReportInfo.Designer.vb">
+      <DependentUpon>frmCashCreditDepositReportInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCashCreditDepositReportInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmGetDatabaseCredentials.Designer.vb">
       <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
     </Compile>
     <Compile Include="frmGetDatabaseCredentials.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInventoryInfo.Designer.vb">
+      <DependentUpon>frmInventoryInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmInventoryInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.vb">
@@ -90,6 +102,12 @@
       <DependentUpon>frmSalesReportInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSalesReportInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTaxReportInfo.Designer.vb">
+      <DependentUpon>frmTaxReportInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTaxReportInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="modCommonUtilities.vb" />
@@ -113,14 +131,23 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmCashCreditDepositReportInfo.resx">
+      <DependentUpon>frmCashCreditDepositReportInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGetDatabaseCredentials.resx">
       <DependentUpon>frmGetDatabaseCredentials.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInventoryInfo.resx">
+      <DependentUpon>frmInventoryInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSalesReportInfo.resx">
       <DependentUpon>frmSalesReportInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTaxReportInfo.resx">
+      <DependentUpon>frmTaxReportInfo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

@@ -55,7 +55,7 @@ Public Module modDatabaseUtilities
     ' Abstract: Open a connection to the database.
 
     ' --------------------------------------------------------------------------------
-    Public Function OpenDatabaseConnectionSQLServer() As Boolean
+    Public Function OpenDatabaseConnectionSQLServer(ByVal blnQuiet As Boolean) As Boolean
 
         Dim blnResult As Boolean = False
 
@@ -73,7 +73,11 @@ Public Module modDatabaseUtilities
         Catch excError As Exception
 
             ' Log and display error message
-            MessageBox.Show(excError.Message)
+            If (blnQuiet = False) Then
+                MessageBox.Show(excError.Message)
+            Else
+                Console.WriteLine(excError.Message)
+            End If
 
         End Try
 
