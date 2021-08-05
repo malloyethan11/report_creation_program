@@ -1,61 +1,74 @@
 ﻿Public Class frmTaxReportInfo
     Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.Click
 
-        ' reset control colors
-        txtYear.BackColor = Color.White
-        txtEmail.BackColor = Color.White
+        Try
+            ' reset control colors
+            txtYear.BackColor = Color.White
+            txtEmail.BackColor = Color.White
 
-        ' declare variables
-        Dim strToEmail As String
-        Dim strYear As String
-        Dim strMonth As String
-        Dim strDay As String
-        'Dim strFile As String
+            ' declare variables
+            Dim strToEmail As String
+            Dim strYear As String
+            Dim strMonth As String
+            Dim strDay As String
+            'Dim strFile As String
 
-        ' validate input
-        If txtEmail.Text = "" Or System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") = False Then
+            ' validate input
+            If txtEmail.Text = "" Or System.Text.RegularExpressions.Regex.IsMatch(txtEmail.Text, "^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$") = False Then
 
-            txtEmail.BackColor = Color.Yellow
-            MessageBox.Show("Please enter a valid email address.")
-
-        Else
-            strToEmail = txtEmail.Text
-
-            If txtYear.Text = "" Or txtYear.Text.Length <> 4 Or IsNumeric(txtYear.Text) = False Then
-                txtYear.BackColor = Color.Yellow
-                MessageBox.Show("Please enter a numeric year in the format YYYY.")
+                txtEmail.BackColor = Color.Yellow
+                MessageBox.Show("Please enter a valid email address.")
 
             Else
-                strYear = txtYear.Text
+                strToEmail = txtEmail.Text
 
-                If ValidateMonth() = True Then
+                If txtYear.Text = "" Or txtYear.Text.Length <> 4 Or IsNumeric(txtYear.Text) = False Then
+                    txtYear.BackColor = Color.Yellow
+                    MessageBox.Show("Please enter a numeric year in the format YYYY.")
 
-                    strMonth = txtMonth.Text
+                Else
+                    strYear = txtYear.Text
 
-                    If ValidateDay() = True Then
+                    If ValidateMonth() = True Then
 
-                        strDay = txtDay.Text
-                        Dim blnResult As Boolean = RunTaxReport(Me, False, strYear, strMonth, strDay)
-                        ' reset control colors
-                        txtYear.BackColor = Color.White
-                        txtEmail.BackColor = Color.White
+                        strMonth = txtMonth.Text
 
-                        GC.Collect()
-                        GC.WaitForPendingFinalizers()
+                        If ValidateDay() = True Then
 
-                        'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
+                            strDay = txtDay.Text
+                            Dim blnResult As Boolean = RunTaxReport(Me, False, strYear, strMonth, strDay)
+                            ' reset control colors
+                            txtYear.BackColor = Color.White
+                            txtEmail.BackColor = Color.White
 
-                        'strFile = strFile.Remove(0, 6)
+                            'GC.Collect()
+                            'GC.WaitForPendingFinalizers()
 
-                        Threading.Thread.Sleep(3000)
+                            'strFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase) + "\TaxReport.xlsx"
 
-                        If blnResult = True Then
-                            SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", False)
+                            'strFile = strFile.Remove(0, 6)
+
+                            Threading.Thread.Sleep(3000)
+
+                            If blnResult = True Then
+                                SendMail(strToEmail, "TeamBeesCapstone@gmail.com", "Tax Report", "", "TeamBeesCapstone@gmail.com", "cincystate123", "TaxReport.xlsx", False)
+                            End If
                         End If
                     End If
                 End If
             End If
-        End If
+
+        Catch excError As Exception
+
+            MessageBox.Show("Something went wrong in creating that report." & vbNewLine & "Error: " & excError.Message, "Error!")
+
+        Finally
+
+            ' In case garbage wasn't collected
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+
+        End Try
 
     End Sub
 
