@@ -47,13 +47,6 @@ D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\rep
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmTaxReportInfo.resources
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmCashCreditDepositReportInfo.resources
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmInventoryInfo.resources
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe.config
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.pdb
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.xml
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.exe
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.xml
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.pdb
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe.config
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.pdb
@@ -65,4 +58,10 @@ C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyeth
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.exe
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.xml
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.pdb
-D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\report_creation_program.vbprojAssemblyReference.cache
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe.config
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.pdb
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.xml
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.exe
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.xml
+D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.pdb
