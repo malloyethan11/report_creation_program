@@ -49,7 +49,7 @@ Partial Class frmSalesReportInfo
         Me.txtEmail.Location = New System.Drawing.Point(11, 25)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(278, 20)
-        Me.txtEmail.TabIndex = 0
+        Me.txtEmail.TabIndex = 1
         '
         'Label1
         '
@@ -71,7 +71,7 @@ Partial Class frmSalesReportInfo
         Me.cboTimePeriod.MaxDropDownItems = 1
         Me.cboTimePeriod.Name = "cboTimePeriod"
         Me.cboTimePeriod.Size = New System.Drawing.Size(278, 21)
-        Me.cboTimePeriod.TabIndex = 1
+        Me.cboTimePeriod.TabIndex = 2
         '
         'btnOK
         '
@@ -81,7 +81,7 @@ Partial Class frmSalesReportInfo
         Me.btnOK.Location = New System.Drawing.Point(180, 104)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(114, 39)
-        Me.btnOK.TabIndex = 3
+        Me.btnOK.TabIndex = 4
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
@@ -93,7 +93,7 @@ Partial Class frmSalesReportInfo
         Me.btnCancel.Location = New System.Drawing.Point(7, 104)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(114, 39)
-        Me.btnCancel.TabIndex = 2
+        Me.btnCancel.TabIndex = 3
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -104,6 +104,7 @@ Partial Class frmSalesReportInfo
         '
         'frmSalesReportInfo
         '
+        Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White

@@ -41,7 +41,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.txtDay.Location = New System.Drawing.Point(276, 64)
         Me.txtDay.Name = "txtDay"
         Me.txtDay.Size = New System.Drawing.Size(65, 20)
-        Me.txtDay.TabIndex = 3
+        Me.txtDay.TabIndex = 4
         '
         'txtMonth
         '
@@ -49,7 +49,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.txtMonth.Location = New System.Drawing.Point(208, 64)
         Me.txtMonth.Name = "txtMonth"
         Me.txtMonth.Size = New System.Drawing.Size(62, 20)
-        Me.txtMonth.TabIndex = 2
+        Me.txtMonth.TabIndex = 3
         '
         'Label2
         '
@@ -76,7 +76,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.txtEmail.Location = New System.Drawing.Point(12, 25)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(329, 20)
-        Me.txtEmail.TabIndex = 0
+        Me.txtEmail.TabIndex = 1
         '
         'txtYear
         '
@@ -85,7 +85,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.txtYear.Location = New System.Drawing.Point(12, 64)
         Me.txtYear.Name = "txtYear"
         Me.txtYear.Size = New System.Drawing.Size(190, 20)
-        Me.txtYear.TabIndex = 1
+        Me.txtYear.TabIndex = 2
         '
         'btnCancel
         '
@@ -95,7 +95,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.btnCancel.Location = New System.Drawing.Point(8, 95)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(114, 39)
-        Me.btnCancel.TabIndex = 4
+        Me.btnCancel.TabIndex = 5
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -107,7 +107,7 @@ Partial Class frmCashCreditDepositReportInfo
         Me.btnOK.Location = New System.Drawing.Point(232, 95)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(114, 39)
-        Me.btnOK.TabIndex = 5
+        Me.btnOK.TabIndex = 6
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
@@ -118,6 +118,7 @@ Partial Class frmCashCreditDepositReportInfo
         '
         'frmCashCreditDepositReportInfo
         '
+        Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White

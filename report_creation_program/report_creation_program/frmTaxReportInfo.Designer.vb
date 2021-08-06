@@ -43,7 +43,7 @@ Partial Class frmTaxReportInfo
         Me.btnOK.Location = New System.Drawing.Point(144, 96)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(114, 39)
-        Me.btnOK.TabIndex = 0
+        Me.btnOK.TabIndex = 6
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
@@ -55,7 +55,7 @@ Partial Class frmTaxReportInfo
         Me.btnCancel.Location = New System.Drawing.Point(11, 96)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(114, 39)
-        Me.btnCancel.TabIndex = 1
+        Me.btnCancel.TabIndex = 5
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -75,7 +75,7 @@ Partial Class frmTaxReportInfo
         Me.txtEmail.Location = New System.Drawing.Point(15, 25)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(238, 20)
-        Me.txtEmail.TabIndex = 3
+        Me.txtEmail.TabIndex = 1
         '
         'Label1
         '
@@ -101,7 +101,7 @@ Partial Class frmTaxReportInfo
         Me.txtMonth.Location = New System.Drawing.Point(123, 64)
         Me.txtMonth.Name = "txtMonth"
         Me.txtMonth.Size = New System.Drawing.Size(62, 20)
-        Me.txtMonth.TabIndex = 6
+        Me.txtMonth.TabIndex = 3
         '
         'txtDay
         '
@@ -109,7 +109,7 @@ Partial Class frmTaxReportInfo
         Me.txtDay.Location = New System.Drawing.Point(191, 64)
         Me.txtDay.Name = "txtDay"
         Me.txtDay.Size = New System.Drawing.Size(62, 20)
-        Me.txtDay.TabIndex = 7
+        Me.txtDay.TabIndex = 4
         '
         'tmrUpdateButtonImage
         '
@@ -118,6 +118,7 @@ Partial Class frmTaxReportInfo
         '
         'frmTaxReportInfo
         '
+        Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White

@@ -35,8 +35,6 @@ Partial Class frmMain
         Me.btnSalesReport = New System.Windows.Forms.Button()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.tmrUpdateLocalConfig = New System.Windows.Forms.Timer(Me.components)
-        Me.tmrCheckIfReportRun = New System.Windows.Forms.Timer(Me.components)
         Me.tmrUpdateButtonImage = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
@@ -48,7 +46,7 @@ Partial Class frmMain
         Me.btnCashCreditDepositReport.Location = New System.Drawing.Point(19, 156)
         Me.btnCashCreditDepositReport.Name = "btnCashCreditDepositReport"
         Me.btnCashCreditDepositReport.Size = New System.Drawing.Size(112, 41)
-        Me.btnCashCreditDepositReport.TabIndex = 1
+        Me.btnCashCreditDepositReport.TabIndex = 4
         Me.btnCashCreditDepositReport.Text = "Deposit Report"
         Me.btnCashCreditDepositReport.UseVisualStyleBackColor = True
         '
@@ -60,7 +58,7 @@ Partial Class frmMain
         Me.btnInventoryReport.Location = New System.Drawing.Point(19, 109)
         Me.btnInventoryReport.Name = "btnInventoryReport"
         Me.btnInventoryReport.Size = New System.Drawing.Size(112, 41)
-        Me.btnInventoryReport.TabIndex = 2
+        Me.btnInventoryReport.TabIndex = 3
         Me.btnInventoryReport.Text = "Inventory Report"
         Me.btnInventoryReport.UseVisualStyleBackColor = True
         '
@@ -72,7 +70,7 @@ Partial Class frmMain
         Me.btnTaxReport.Location = New System.Drawing.Point(19, 62)
         Me.btnTaxReport.Name = "btnTaxReport"
         Me.btnTaxReport.Size = New System.Drawing.Size(112, 41)
-        Me.btnTaxReport.TabIndex = 3
+        Me.btnTaxReport.TabIndex = 2
         Me.btnTaxReport.Text = "Tax Report"
         Me.btnTaxReport.UseVisualStyleBackColor = True
         '
@@ -84,7 +82,7 @@ Partial Class frmMain
         Me.btnSalesReport.Location = New System.Drawing.Point(19, 15)
         Me.btnSalesReport.Name = "btnSalesReport"
         Me.btnSalesReport.Size = New System.Drawing.Size(112, 41)
-        Me.btnSalesReport.TabIndex = 4
+        Me.btnSalesReport.TabIndex = 1
         Me.btnSalesReport.Text = "Sales Report"
         Me.btnSalesReport.UseVisualStyleBackColor = True
         '
@@ -109,16 +107,6 @@ Partial Class frmMain
         Me.Label1.Size = New System.Drawing.Size(139, 13)
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "______________________"
-        '
-        'tmrUpdateLocalConfig
-        '
-        Me.tmrUpdateLocalConfig.Enabled = True
-        Me.tmrUpdateLocalConfig.Interval = 1000
-        '
-        'tmrCheckIfReportRun
-        '
-        Me.tmrCheckIfReportRun.Enabled = True
-        Me.tmrCheckIfReportRun.Interval = 1000
         '
         'tmrUpdateButtonImage
         '
@@ -148,8 +136,5 @@ Partial Class frmMain
     Friend WithEvents btnInventoryReport As Button
     Friend WithEvents btnTaxReport As Button
     Friend WithEvents btnSalesReport As Button
-
-    Friend WithEvents tmrUpdateLocalConfig As Timer
-    Friend WithEvents tmrCheckIfReportRun As Timer
     Friend WithEvents tmrUpdateButtonImage As Timer
 End Class

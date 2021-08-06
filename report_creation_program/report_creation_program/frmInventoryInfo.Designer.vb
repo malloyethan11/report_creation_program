@@ -39,7 +39,7 @@ Partial Class frmInventoryInfo
         Me.btnCancel.Location = New System.Drawing.Point(4, 51)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(114, 39)
-        Me.btnCancel.TabIndex = 15
+        Me.btnCancel.TabIndex = 2
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -51,7 +51,7 @@ Partial Class frmInventoryInfo
         Me.btnOK.Location = New System.Drawing.Point(176, 51)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(114, 39)
-        Me.btnOK.TabIndex = 16
+        Me.btnOK.TabIndex = 3
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
         '
@@ -71,7 +71,7 @@ Partial Class frmInventoryInfo
         Me.txtEmail.Location = New System.Drawing.Point(8, 25)
         Me.txtEmail.Name = "txtEmail"
         Me.txtEmail.Size = New System.Drawing.Size(277, 20)
-        Me.txtEmail.TabIndex = 13
+        Me.txtEmail.TabIndex = 1
         '
         'tmrUpdateButtonImage
         '
@@ -80,6 +80,7 @@ Partial Class frmInventoryInfo
         '
         'frmInventoryInfo
         '
+        Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
