@@ -91,7 +91,7 @@ Partial Class frmInventoryInfo
         Me.Controls.Add(Me.txtEmail)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmInventoryInfo"
-        Me.Text = "frmInventoryInfo"
+        Me.Text = "Inventory Info"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
