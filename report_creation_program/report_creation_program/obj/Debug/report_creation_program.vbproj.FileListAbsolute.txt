@@ -47,17 +47,10 @@ D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\rep
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmTaxReportInfo.resources
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmCashCreditDepositReportInfo.resources
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmInventoryInfo.resources
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe.config
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.exe
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.pdb
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\ReportCreation.xml
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmCashCreditDepositReportInfo.resources
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmGetDatabaseCredentials.resources
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmInventoryInfo.resources
 C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\TestNET.frmTaxReportInfo.resources
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.exe
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.xml
-C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\ReportCreation.pdb
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe.config
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.pdb
@@ -65,3 +58,10 @@ D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\rep
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.exe
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.xml
 D:\College Homework\CAPSTONE\report_creation_program\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.pdb
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe.config
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.exe
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.pdb
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\bin\Debug\Manual Report Creation.xml
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.exe
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.xml
+C:\Users\mallo\OneDrive\Documents\SCHOOL STUFF\05 Summer 2021\Capstone\malloyethan11\report_creation_program\report_creation_program\report_creation_program\obj\Debug\Manual Report Creation.pdb
